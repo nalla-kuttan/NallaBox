@@ -1,0 +1,109 @@
+name: NallaBox
+options:
+  deploymentTarget:
+    iOS: "18.0"
+    macOS: "15.0"
+  createIntermediateGroups: true
+settings:
+  base:
+    SWIFT_VERSION: "6.0"
+    SWIFT_STRICT_CONCURRENCY: complete
+    CODE_SIGN_STYLE: Automatic
+    DEVELOPMENT_TEAM: ""
+    PRODUCT_NAME: NallaBox
+    MARKETING_VERSION: "1.0"
+    CURRENT_PROJECT_VERSION: "1"
+    ENABLE_USER_SCRIPT_SANDBOXING: YES
+    ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS: YES
+    ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+packages:
+  NallaCore:
+    path: ../Packages/NallaCore
+  NallaServer:
+    path: ../Packages/NallaServer
+targets:
+  NallaBox-iOS:
+    type: application
+    platform: iOS
+    scheme: {}
+    sources:
+      - Shared
+      - iOS
+      - path: ../design/NallaBoxTheme.swift
+        group: Shared
+      - Assets.xcassets
+      - path: Resources/Content
+        type: folder
+      - path: Resources/Controller
+        type: folder
+      - path: "../design/mockups/shared/fonts/Nunito[wght].ttf"
+        buildPhase: resources
+    dependencies:
+      - package: NallaCore
+      - package: NallaServer
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: app.nallabox.ios
+        TARGETED_DEVICE_FAMILY: "1"
+        INFOPLIST_FILE: iOS/Info.plist
+    info:
+      path: iOS/Info.plist
+      properties:
+        CFBundleDisplayName: NallaBox
+        CFBundleShortVersionString: $(MARKETING_VERSION)
+        CFBundleVersion: $(CURRENT_PROJECT_VERSION)
+        LSRequiresIPhoneOS: true
+        NSLocalNetworkUsageDescription: "Friends' phones connect to this iPhone over your Wi-Fi to play."
+        NSBonjourServices: ["_nallabox._tcp"]
+        UIAppFonts: ["Nunito[wght].ttf"]
+        UILaunchScreen:
+          UIColorName: ""
+        UISupportedInterfaceOrientations: [UIInterfaceOrientationPortrait]
+        UIUserInterfaceStyle: Dark
+        UIApplicationSceneManifest:
+          UIApplicationSupportsMultipleScenes: true
+          UISceneConfigurations:
+            UIWindowSceneSessionRoleExternalDisplayNonInteractive:
+              - UISceneConfigurationName: External Display
+                UISceneDelegateClassName: $(PRODUCT_MODULE_NAME).ExternalDisplaySceneDelegate
+  NallaBox-Mac:
+    type: application
+    platform: macOS
+    scheme: {}
+    sources:
+      - Shared
+      - macOS
+      - path: ../design/NallaBoxTheme.swift
+        group: Shared
+      - Assets.xcassets
+      - path: Resources/Content
+        type: folder
+      - path: Resources/Controller
+        type: folder
+      - path: "../design/mockups/shared/fonts/Nunito[wght].ttf"
+        buildPhase: resources
+    dependencies:
+      - package: NallaCore
+      - package: NallaServer
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: app.nallabox.mac
+        CODE_SIGN_IDENTITY: "-"
+        INFOPLIST_FILE: macOS/Info.plist
+        CODE_SIGN_ENTITLEMENTS: macOS/NallaBox.entitlements
+        ENABLE_HARDENED_RUNTIME: YES
+    info:
+      path: macOS/Info.plist
+      properties:
+        CFBundleShortVersionString: $(MARKETING_VERSION)
+        CFBundleVersion: $(CURRENT_PROJECT_VERSION)
+        ATSApplicationFontsPath: "."
+        LSApplicationCategoryType: public.app-category.party-games
+        NSLocalNetworkUsageDescription: "Friends' phones connect to this Mac over your Wi-Fi to play."
+        NSBonjourServices: ["_nallabox._tcp"]
+    entitlements:
+      path: macOS/NallaBox.entitlements
+      properties:
+        com.apple.security.app-sandbox: true
+        com.apple.security.network.server: true
+        com.apple.security.network.client: true
