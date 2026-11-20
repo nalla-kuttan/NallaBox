@@ -109,6 +109,7 @@ public protocol GameRules {
 public enum GameSession: Equatable, Sendable {
     case redacted(Redacted.State)
     case sketch(Sketch.State)
+    case insider(Insider.State)
     #if DEBUG
     case test(TestGame.State)
     #endif
@@ -117,6 +118,7 @@ public enum GameSession: Equatable, Sendable {
         switch self {
         case .redacted: Redacted.self
         case .sketch: Sketch.self
+        case .insider: Insider.self
         #if DEBUG
         case .test: TestGame.self
         #endif
@@ -130,7 +132,7 @@ extension GameID {
         switch self {
         case .redacted: Redacted.self
         case .sketch: Sketch.self
-        case .insider: nil
+        case .insider: Insider.self
         #if DEBUG
         case .test: TestGame.self
         #endif
