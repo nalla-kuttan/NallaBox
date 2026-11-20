@@ -1,7 +1,7 @@
 import Foundation
 
 public enum HostAction: Equatable, Sendable {
-    case pause, resume, skip, removePlayer(PlayerID), setFamilyFriendly(Bool), setVoice(Bool), setTimer(TimerSpeed), endSession
+    case pause, resume, skip, removePlayer(PlayerID), setFamilyFriendly(Bool), setVoice(Bool), setTimer(TimerSpeed), endGame, endSession
 }
 
 public enum Event: Equatable, Sendable {
@@ -220,6 +220,12 @@ struct Reducer {
         case .setFamilyFriendly(let on): s.settings.familyFriendly = on
         case .setVoice(let on): s.settings.voiceOn = on
         case .setTimer(let t): s.settings.timer = t
+        case .endGame:
+            switch s.phase {
+            case .playing(let g): finish(g)
+            case .howTo(let g, _): s.phase = .settings(g); s.pause = nil
+            default: break
+            }
         case .endSession:
             if case .playing(let g) = s.phase { finish(g) }
             s.pause = nil

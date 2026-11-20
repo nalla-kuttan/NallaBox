@@ -328,3 +328,10 @@ import Testing
     h.send(.host(.setTimer(.x15)))
     #expect(h.s.settings.timer == .x15)
 }
+
+@Test func hostEndsGameWithoutClosingRoom() {
+    var h = Harness.playing()
+    h.send(.host(.endGame))
+    guard case .results = h.s.phase else { Issue.record("no results"); return }
+    #expect(!h.effects.contains(.closeRoom))
+}

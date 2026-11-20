@@ -6,7 +6,7 @@ import NallaCore
 struct TVRootView: View {
     var tv: TVView
     var qr: CGImage?
-    var largeCaptions = false
+    var captionSize: CGFloat = 36
 
     var body: some View {
         TVCanvas {
@@ -17,7 +17,7 @@ struct TVRootView: View {
                     .opacity(tv.overlays.paused == nil ? 1 : 0.35)
                 overlays
             }
-            .environment(\.largeCaptions, largeCaptions)
+            .environment(\.captionSize, captionSize)
             .animation(.easeInOut(duration: NB.Motion.screen), value: tv.screen.screen)
         }
     }
@@ -97,10 +97,10 @@ enum GameScreens {
     }
 }
 
-private struct LargeCaptionsKey: EnvironmentKey { static let defaultValue = false }
+private struct CaptionSizeKey: EnvironmentKey { static let defaultValue: CGFloat = 36 }
 extension EnvironmentValues {
-    var largeCaptions: Bool {
-        get { self[LargeCaptionsKey.self] }
-        set { self[LargeCaptionsKey.self] = newValue }
+    var captionSize: CGFloat {
+        get { self[CaptionSizeKey.self] }
+        set { self[CaptionSizeKey.self] = newValue }
     }
 }

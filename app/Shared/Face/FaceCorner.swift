@@ -26,13 +26,13 @@ struct FaceView: View {
 
 struct FaceCorner: View {
     var cue: FaceCue
-    @Environment(\.largeCaptions) private var largeCaptions
+    @Environment(\.captionSize) private var captionSize
 
     var body: some View {
         HStack(spacing: 20) {
             if let caption = cue.caption, !caption.isEmpty {
                 Text(caption)
-                    .font(.custom("Nunito", size: largeCaptions ? 44 : 36).weight(.heavy))
+                    .font(.custom("Nunito", size: captionSize).weight(.heavy))
                     .lineLimit(1)
                     .fixedSize()
                     .foregroundStyle(NB.Palette.ink)

@@ -1,12 +1,20 @@
+import CoreGraphics
 import Foundation
 import NallaCore
+
+/// TV caption size (M5).
+enum CaptionSize: String, Codable, CaseIterable {
+    case medium, large, extraLarge
+    var points: CGFloat { switch self { case .medium: 36; case .large: 44; case .extraLarge: 52 } }
+    var label: String { switch self { case .medium: "Medium"; case .large: "Large"; case .extraLarge: "Extra large" } }
+}
 
 /// Host settings (Mac M5, iPhone host menu), kept in UserDefaults.
 struct HostPrefs: Codable, Equatable {
     var familyFriendly = true
     var timer: TimerSpeed = .x1
     var voiceOn = true
-    var largeCaptions = false
+    var captions: CaptionSize = .medium
 
     private static let key = "nb.hostPrefs"
 
