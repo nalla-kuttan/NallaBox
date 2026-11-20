@@ -1,0 +1,39 @@
+/* Mockup chrome: the bar above each screen and the true-size device frame. Not part of the product UI. */
+.nbf-bar {
+  position: sticky; top: 0; z-index: 100;
+  display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+  padding: 10px 16px; background: #0B0A10; border-bottom: 1px solid #2A2638;
+  font: 600 13px/1.3 var(--nb-font); color: #CFCBE0;
+}
+.nbf-bar b { color: #fff; font-weight: 900; }
+.nbf-bar a, .nbf-bar button {
+  color: #fff; text-decoration: none; background: #24203A; border: 1px solid #3A3556;
+  border-radius: 8px; padding: 4px 10px; cursor: pointer; font: 700 12px var(--nb-font);
+}
+.nbf-bar a[aria-disabled="true"] { opacity: .35; pointer-events: none; }
+.nbf-bar button[aria-pressed="true"] { background: var(--nb-color-coral); border-color: var(--nb-color-coral); }
+.nbf-spacer { flex: 1; }
+.nbf-states { display: flex; gap: 6px; flex-wrap: wrap; }
+.nbf-size { opacity: .7; }
+
+.nbf-stage { padding: 24px; display: flex; justify-content: center; }
+.nbf-device {
+  position: relative; flex: none; overflow: hidden;
+  background: var(--nb-color-ink);
+  box-shadow: 0 0 0 1px #3A3556, 0 30px 80px rgba(0,0,0,.5);
+  transform-origin: top left;
+}
+.nbf-device[data-surface="phone"], .nbf-device[data-surface="host-iphone"] { border-radius: 44px; }
+.nbf-device[data-surface="tv"] { border-radius: 6px; }
+.nbf-device[data-surface="host-mac"] { border-radius: 12px; background: #17151F; }
+.nbf-scaler { position: relative; }
+
+/* Embedded mode (?embed=1): no chrome, page fills its iframe */
+body.nbf-embed .nbf-bar { display: none; }
+body.nbf-embed .nbf-stage { padding: 0; }
+body.nbf-embed .nbf-device { box-shadow: none; border-radius: 0; }
+body.nbf-embed { background: var(--nb-color-ink); overflow: hidden; }
+body.nbf-embed .ios-status, body.nbf-embed .home-indicator { display: none; }
+
+/* State switching: [data-show-state] blocks are visible only in their state */
+[data-show-state]:not(.nbf-on) { display: none !important; }

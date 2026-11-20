@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Face states — NallaBox</title>
+<link rel="stylesheet" href="shared/tokens.css"><link rel="stylesheet" href="shared/base.css"><link rel="stylesheet" href="shared/components.css">
+<style>
+ body { background: var(--nb-color-ink); padding: 32px; }
+ h1 { font-size: 36px; font-weight: 900; } .lede { color: var(--nb-color-text-dim); font-weight: 700; margin: 4px 0 24px; }
+ .lede a { color: var(--nb-color-coral); }
+ .grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+ .fc { background: var(--nb-color-ink-raised); border-radius: var(--nb-radius-lg); padding: 24px; display: flex; flex-direction: column; align-items: center; gap: 8px; text-align: center; }
+ .fc .face { width: 160px; height: 160px; } .fc h3 { font-size: 22px; font-weight: 900; text-transform: capitalize; }
+ .fc p { font-weight: 700; font-size: 15px; } .cap { background: var(--nb-color-paper); color: var(--nb-color-ink); padding: 6px 12px; border-radius: 12px; }
+ .demo { margin-top: 32px; display: flex; align-items: center; gap: 24px; }
+ .demo img { width: 160px; height: 160px; }
+</style></head>
+<body>
+<h1>Face states</h1>
+<p class="lede">Spec §9.5 · drawn from the logo master · shown at 160 px, the TV corner size. <a href="index.html">All screens</a></p>
+<div class="grid"><div class="fc"><img class="face" src="shared/face/face-idle.svg" alt="idle"><h3>idle</h3><p class="t-dim">Default</p></div><div class="fc"><img class="face" src="shared/face/face-wink.svg" alt="wink"><h3>wink</h3><p class="t-dim">Lobby, round start</p><p class=cap>Scan to join.</p></div><div class="fc"><img class="face" src="shared/face/face-blink.svg" alt="blink"><h3>blink</h3><p class="t-dim">Random while idle, every 4–7 s</p></div><div class="fc"><img class="face" src="shared/face/face-grin.svg" alt="grin"><h3>grin</h3><p class="t-dim">Points awarded</p><p class=cap>Sam fooled three of you.</p></div><div class="fc"><img class="face" src="shared/face/face-gasp.svg" alt="gasp"><h3>gasp</h3><p class="t-dim">Reveals, real answer shown</p><p class=cap>That one was real?!</p></div><div class="fc"><img class="face" src="shared/face/face-suspicious.svg" alt="suspicious"><h3>suspicious</h3><p class="t-dim">Insider discuss/accuse, Witness phase</p><p class=cap>Someone here knows the answer.</p></div><div class="fc"><img class="face" src="shared/face/face-sleepy.svg" alt="sleepy"><h3>sleepy</h3><p class="t-dim">Pause; last 5 s of a timer</p><p class=cap>Paused. Take your time.</p></div><div class="fc"><img class="face" src="shared/face/face-celebrate.svg" alt="celebrate"><h3>celebrate</h3><p class="t-dim">Final results</p><p class=cap>And the winner is Priya!</p></div></div>
+<div class="demo"><img id="demo" class="face" src="shared/face/face-idle.svg" alt="">
+<button class="btn btn--primary" style="width:auto" onclick="nbNext()">Next state (180 ms squash)</button><span id="demo-name" class="t-heading">idle</span></div>
+<script>
+ const S = ['idle','wink','blink','grin','gasp','suspicious','sleepy','celebrate']; let i = 0; const img = document.getElementById('demo');
+ function nbNext() { i = (i + 1) % S.length; img.src = 'shared/face/face-' + S[i] + '.svg';
+   document.getElementById('demo-name').textContent = S[i]; img.classList.remove('face-swap'); void img.offsetWidth; img.classList.add('face-swap'); }
+</script>
+</body></html>

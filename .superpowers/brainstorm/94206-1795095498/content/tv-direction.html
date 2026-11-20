@@ -1,0 +1,105 @@
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;800;900&display=swap" rel="stylesheet">
+<style>
+  .tv { aspect-ratio: 16/9; border-radius: 10px; overflow: hidden; position: relative; font-family: 'Nunito', system-ui, sans-serif; display: grid; grid-template-columns: 38% 1fr; gap: 4%; padding: 5% 5% 4%; box-sizing: border-box; }
+  .tv * { box-sizing: border-box; }
+  .tv .join { display: flex; flex-direction: column; gap: 6%; }
+  .tv .brand { display: flex; align-items: center; gap: 6px; font-weight: 900; font-size: clamp(10px, 1.4vw, 18px); letter-spacing: .2px; }
+  .tv .brand img { width: 1.6em; height: 1.6em; }
+  .tv .qr { width: 72%; aspect-ratio: 1; border-radius: 10%; padding: 6%; display: grid; grid-template-columns: repeat(7, 1fr); gap: 4%; }
+  .tv .qr i { border-radius: 2px; }
+  .tv .code-label { font-weight: 700; font-size: clamp(7px, .8vw, 11px); letter-spacing: 1.5px; text-transform: uppercase; opacity: .7; }
+  .tv .code { font-weight: 900; font-size: clamp(18px, 3.2vw, 44px); letter-spacing: .12em; line-height: 1; }
+  .tv .url { font-weight: 700; font-size: clamp(7px, .85vw, 12px); opacity: .75; }
+  .tv .players { display: grid; grid-template-columns: repeat(2, 1fr); gap: 4% 5%; align-content: start; }
+  .tv h4 { grid-column: 1 / -1; margin: 0 0 2%; font-weight: 900; font-size: clamp(12px, 1.9vw, 26px); }
+  .tv .p { display: flex; align-items: center; gap: 8%; border-radius: 12px; padding: 5% 6%; font-weight: 800; font-size: clamp(8px, 1.1vw, 15px); min-height: 2.8em; }
+  .tv .av { width: 2em; height: 2em; border-radius: 30%; flex: none; }
+  .tv .p.empty { font-weight: 700; opacity: .55; border: 2px dashed currentColor; background: transparent !important; }
+  .tv .lead { font-size: .7em; font-weight: 800; padding: 2px 6px; border-radius: 6px; margin-left: auto; }
+  .tv .foot { position: absolute; left: 5%; right: 5%; bottom: 4%; display: flex; justify-content: space-between; font-weight: 700; font-size: clamp(7px, .85vw, 12px); opacity: .8; }
+
+  /* A: Night stage */
+  .a { background: #1E1B2E; color: #fff; }
+  .a .qr { background: #fff; } .a .qr i { background: #1E1B2E; } .a .qr i.o { background: transparent; }
+  .a .code { color: #FF5C39; }
+  .a .p { background: #2B2742; } .a .lead { background: #FF5C39; color: #fff; }
+
+  /* B: Paper */
+  .b { background: #FFF4EA; color: #1E1B2E; }
+  .b .qr { background: #fff; box-shadow: 0 0 0 2px #1E1B2E22; } .b .qr i { background: #1E1B2E; } .b .qr i.o { background: transparent; }
+  .b .code { color: #1E1B2E; }
+  .b .p { background: #fff; box-shadow: 0 1px 0 #1E1B2E1a; } .b .lead { background: #1E1B2E; color: #fff; }
+
+  /* C: Coral blast */
+  .c { background: #FF5C39; color: #fff; }
+  .c .qr { background: #fff; } .c .qr i { background: #1E1B2E; } .c .qr i.o { background: transparent; }
+  .c .code { color: #1E1B2E; }
+  .c .p { background: #ffffff2e; } .c .lead { background: #1E1B2E; color: #fff; }
+</style>
+
+<h2>Which mood should the TV screen have?</h2>
+<p class="subtitle">Same lobby, three looks. The TV is what the whole room stares at all night; the phones and host app will follow whichever you pick. I'd pick A: dark is calmer in a dim living room, and coral pops hardest on Night Ink.</p>
+
+<template id="lobby">
+  <div class="join">
+    <div class="brand"><img alt="" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='32 32 192 192'%3E%3Cpath fill='%23FFFFFF' d='M80 76H108A12 12 0 0 1 120 88V116A12 12 0 0 1 108 128H80A12 12 0 0 1 68 116V88A12 12 0 0 1 80 76ZM144 94H180A8 8 0 0 1 188 102A8 8 0 0 1 180 110H144A8 8 0 0 1 136 102A8 8 0 0 1 144 94ZM168 161.3A80 80 0 0 1 88 161.3A8 8 0 0 1 96 147.4A64 64 0 0 0 160 147.4A8 8 0 0 1 168 161.3Z'/%3E%3Cpath fill='%23FF5C39' fill-rule='evenodd' d='M84 32H172A52 52 0 0 1 224 84V172A52 52 0 0 1 172 224H84A52 52 0 0 1 32 172V84A52 52 0 0 1 84 32ZM80 76H108A12 12 0 0 1 120 88V116A12 12 0 0 1 108 128H80A12 12 0 0 1 68 116V88A12 12 0 0 1 80 76ZM88 92H100A4 4 0 0 1 104 96V108A4 4 0 0 1 100 112H88A4 4 0 0 1 84 108V96A4 4 0 0 1 88 92ZM144 94H180A8 8 0 0 1 188 102A8 8 0 0 1 180 110H144A8 8 0 0 1 136 102A8 8 0 0 1 144 94ZM168 161.3A80 80 0 0 1 88 161.3A8 8 0 0 1 96 147.4A64 64 0 0 0 160 147.4A8 8 0 0 1 168 161.3Z'/%3E%3C/svg%3E">nallabox</div>
+    <div class="qr"></div>
+    <div><div class="code-label">Room code</div><div class="code">KWPX</div></div>
+    <div class="url">Scan, or go to 192.168.1.24:8080</div>
+  </div>
+  <div class="players">
+    <h4>4 of 8 players in</h4>
+    <div class="p"><span class="av" style="background:#FFB020"></span>Priya<span class="lead">LEADER</span></div>
+    <div class="p"><span class="av" style="background:#3DB7FF"></span>Sam</div>
+    <div class="p"><span class="av" style="background:#7BD88F"></span>Marcus</div>
+    <div class="p"><span class="av" style="background:#C38CFF"></span>Lena</div>
+    <div class="p empty">Waiting…</div>
+    <div class="p empty">Waiting…</div>
+  </div>
+  <div class="foot"><span>Priya starts the game from her phone</span><span>Family-friendly on</span></div>
+</template>
+
+<div class="options" style="display:flex;flex-direction:column;gap:18px">
+  <div class="option" data-choice="night" onclick="toggleSelect(this)">
+    <div class="letter">A</div>
+    <div class="content" style="width:100%">
+      <h3>Night stage</h3>
+      <p>Night Ink background, coral for the room code and the leader. Easiest on the eyes in a dim room; feels like a show.</p>
+      <div class="tv a" data-fill></div>
+    </div>
+  </div>
+  <div class="option" data-choice="paper" onclick="toggleSelect(this)">
+    <div class="letter">B</div>
+    <div class="content" style="width:100%">
+      <h3>Paper</h3>
+      <p>Warm off-white, ink text, coral saved for moments. Friendly and daytime; glares more on a big TV at night.</p>
+      <div class="tv b" data-fill></div>
+    </div>
+  </div>
+  <div class="option" data-choice="coral" onclick="toggleSelect(this)">
+    <div class="letter">C</div>
+    <div class="content" style="width:100%">
+      <h3>Coral blast</h3>
+      <p>The whole screen is the brand colour. Loudest and most ownable; tiring over a two-hour session and leaves little room for game colours.</p>
+      <div class="tv c" data-fill></div>
+    </div>
+  </div>
+</div>
+
+<script>
+  const tpl = document.getElementById('lobby');
+  const on = [1,1,1,1,1,1,1, 1,0,0,0,0,0,1, 1,0,1,1,1,0,1, 1,0,1,1,1,0,1, 1,0,1,1,1,0,1, 1,0,0,0,0,0,1, 1,1,1,1,1,1,1];
+  const noise = [0,1,1,0,1,0,1,1,0,1,0,0,1,1,0,1,1,0,1,0,1,0,0,1,1,0,1,1,0,1,0,1,1,0,1,0,0,1,1,0,1,1,0,0,1,0,1,1,0];
+  document.querySelectorAll('[data-fill]').forEach(el => {
+    el.appendChild(tpl.content.cloneNode(true));
+    const qr = el.querySelector('.qr');
+    for (let i = 0; i < 49; i++) {
+      const r = Math.floor(i / 7), c = i % 7;
+      const finder = (r < 3 && c < 3) || (r < 3 && c > 3) || (r > 3 && c < 3);
+      const fill = finder ? 1 : (r === 3 || c === 3) ? (i % 2) : noise[i];
+      const cell = document.createElement('i');
+      if (!fill) cell.className = 'o';
+      qr.appendChild(cell);
+    }
+  });
+</script>

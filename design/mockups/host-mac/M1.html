@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>M1 · Start — NallaBox</title>
+<link rel="stylesheet" href="../shared/tokens.css">
+<link rel="stylesheet" href="../shared/base.css">
+<link rel="stylesheet" href="../shared/components.css">
+<link rel="stylesheet" href="../shared/frame.css"><style>
+.mac { position: absolute; inset: 0; display: flex; flex-direction: column; background: var(--nb-color-ink); }
+.mac-bar { height: 52px; flex: none; display: flex; align-items: center; gap: 12px; padding: 0 16px; background: #17151F; border-bottom: 1px solid #2E2A40; }
+.lights { display: flex; gap: 8px; margin-right: 8px; }
+.lights i { width: 12px; height: 12px; border-radius: 50%; background: #FF5F57; } .lights i:nth-child(2) { background: #FEBC2E; } .lights i:nth-child(3) { background: #28C840; }
+.mac-title { font-weight: 900; font-size: 15px; display: flex; align-items: center; gap: 8px; }
+.mac-title img { width: 22px; height: 22px; }
+.mac-tools { margin-left: auto; display: flex; gap: 8px; }
+.mac-tools button { height: 32px; padding: 0 12px; border-radius: 8px; border: 0; background: var(--nb-color-ink-raised); font-weight: 800; font-size: 13px; }
+.mac-tools button.is-danger { color: var(--nb-color-danger); }
+.mac-body { flex: 1; min-height: 0; display: grid; grid-template-columns: 360px 1fr; }
+.mac-side { border-right: 1px solid #2E2A40; padding: 20px; display: flex; flex-direction: column; gap: 14px; overflow: hidden; }
+.mac-main { padding: 24px; display: flex; flex-direction: column; gap: 12px; min-width: 0; }
+.mac-code { font-size: 44px; font-weight: 900; letter-spacing: .14em; color: var(--nb-color-coral); line-height: 1; }
+.mac-side .qr { width: 132px; padding: 8px; border-radius: 12px; }
+.mac-players { display: flex; flex-direction: column; gap: 6px; flex: 1; min-height: 0; overflow-y: auto; }
+.mac-player { display: flex; align-items: center; gap: 10px; padding: 6px 8px; border-radius: 10px; background: var(--nb-color-ink-raised); font-weight: 800; font-size: 14px; }
+.mac-player .avatar { --avatar: 28px; font-size: 14px; }
+.mac-player button { margin-left: auto; height: 26px; padding: 0 8px; border-radius: 6px; border: 0; background: transparent; color: var(--nb-color-text-dim); font-size: 12px; font-weight: 800; }
+.health { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 800; color: var(--nb-color-text-dim); }
+.health i { width: 10px; height: 10px; border-radius: 50%; background: var(--nb-color-success); }
+.preview { width: 100%; aspect-ratio: 16 / 9; border: 0; border-radius: 12px; background: #000; box-shadow: 0 0 0 1px #3A3556; }
+.mac-center { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 18px; text-align: center; }
+.mac-center img.logo { width: 96px; height: 96px; }
+.displays { width: 460px; display: flex; flex-direction: column; gap: 8px; text-align: left; }
+.display { display: flex; align-items: center; gap: 12px; padding: 12px 14px; border-radius: 12px; background: var(--nb-color-ink-raised); border: 2px solid transparent; font-weight: 800; font-size: 15px; }
+.display.is-selected { border-color: var(--nb-color-coral); }
+.display small { display: block; color: var(--nb-color-text-dim); font-weight: 700; font-size: 12px; }
+.radio { width: 18px; height: 18px; border-radius: 50%; border: 2px solid var(--nb-color-ink-line); flex: none; }
+.display.is-selected .radio { border: 5px solid var(--nb-color-coral); }
+.mac .btn { width: 460px; }
+.fullgame { position: absolute; inset: 0; background: #000; display: flex; align-items: center; justify-content: center; }
+.fullgame iframe { width: 1280px; height: 720px; border: 0; }
+.edge-bar { position: absolute; left: 50%; top: 12px; transform: translateX(-50%); display: flex; gap: 8px; padding: 8px; border-radius: 14px; background: rgba(23,21,31,.94);
+  box-shadow: 0 10px 30px rgba(0,0,0,.5); font-weight: 800; font-size: 13px; align-items: center; }
+.edge-bar span { padding: 0 8px; color: var(--nb-color-text-dim); }
+.edge-bar button { height: 32px; padding: 0 12px; border-radius: 8px; border: 0; background: var(--nb-color-ink-raised); font-weight: 800; font-size: 13px; }
+.netpanel { padding: 16px; border-radius: 14px; background: var(--nb-color-ink-raised); box-shadow: inset 4px 0 0 var(--nb-color-danger); display: flex; flex-direction: column; gap: 10px; font-size: 14px; }
+.netpanel ol { margin: 0; padding-left: 1.2em; display: flex; flex-direction: column; gap: 6px; color: var(--nb-color-text-dim); font-weight: 700; }
+.mac-sheet-scrim { position: absolute; inset: 52px 0 0 0; background: rgba(10,8,16,.55); }
+.mac-sheet { position: absolute; top: 52px; left: 50%; width: 480px; margin-left: -240px; padding: 22px; border-radius: 0 0 16px 16px; background: #2B2742;
+  box-shadow: 0 20px 50px rgba(0,0,0,.5); display: flex; flex-direction: column; gap: 14px; font-size: 15px; }
+.mac-sheet .segmented button { font-size: 13px; min-height: 32px; }
+.mac-sheet .btn { width: auto; align-self: flex-end; min-height: 36px; font-size: 14px; padding: 0 22px; border-radius: 10px; }
+</style>
+</head>
+<body data-screen="M1" data-surface="host-mac">
+<main class="screen">
+<div class="mac"><div class="mac-bar"><div class="lights"><i></i><i></i><i></i></div><div class="mac-title"><img src="../shared/img/nallabox-symbol-color.svg" alt="">NallaBox</div></div><div class="mac-center"><img class="logo" src="../shared/img/nallabox-symbol-color.svg" alt=""><p class="t-title" style="font-size:32px">Start a party room</p><div class="health"><i></i>Local network on · Wi-Fi “Home”</div><p class="t-label t-dim" style="font-size:12px">Show the game on</p><div class="displays"><div class="display is-selected"><span class="radio"></span><div>LG TV<small>HDMI · 1920×1080 · recommended</small></div></div><div class="display"><span class="radio"></span><div>Built-in Retina Display<small>This Mac&#x27;s screen</small></div></div><div class="display"><span class="radio"></span><div>This window, full screen<small>For a projector mirroring this Mac</small></div></div></div><button class="btn btn--primary" >Start room</button></div></div>
+</main>
+<script src="../shared/screens.js"></script>
+<script src="../shared/frame.js"></script>
+</body></html>

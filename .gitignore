@@ -1,0 +1,10 @@
+.DS_Store
+.build/
+DerivedData/
+app/NallaBox.xcodeproj/
+*.xcuserstate
+xcuserdata/
+node_modules/
+design/mockups/_shots/
+.superpowers/sdd/
+__pycache__/

@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>C1-artist · Briefing, Artist — NallaBox</title>
+<link rel="stylesheet" href="../shared/tokens.css">
+<link rel="stylesheet" href="../shared/base.css">
+<link rel="stylesheet" href="../shared/components.css">
+<link rel="stylesheet" href="../shared/frame.css"><style>
+.drawings { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
+.drawing-tile { position: relative; aspect-ratio: 1; border-radius: var(--nb-radius-lg); overflow: hidden; background: #F6F1EA; border: 4px solid transparent; }
+.drawing-tile img { width: 100%; height: 100%; }
+.drawing-tile__num { position: absolute; left: 10px; top: 10px; min-width: 1.6em; height: 1.6em; padding: 0 .3em; border-radius: 10px; display: grid; place-items: center;
+  background: var(--nb-color-ink); color: #fff; font-weight: 900; }
+.drawing-tile__who { position: absolute; left: 10px; right: 10px; bottom: 10px; display: flex; align-items: center; gap: 8px; padding: 6px 10px; border-radius: 12px;
+  background: rgba(30,27,46,.88); font-weight: 800; }
+.drawing-tile.is-selected { border-color: var(--nb-color-coral); }
+.drawing-tile.is-mine { opacity: .45; }
+.surface-tv .drawing-tile__num { font-size: 32px; }
+.surface-phone .drawing-tile__num { font-size: calc(13px * var(--nb-text-scale, 1)); left: 6px; top: 6px; border-radius: 6px; }
+.surface-tv .drawing-tile__who { font-size: 30px; }
+.lineup { display: grid; grid-template-columns: repeat(4, 380px); gap: 24px; justify-content: center; }
+.thumbs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.countdown { font-size: 220px; font-weight: 900; line-height: 1; color: var(--nb-color-coral); font-variant-numeric: tabular-nums; }
+.artist-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+.artist-grid .avatar { --avatar: 52px; font-size: 26px; }
+.artist-grid .player-chip { font-size: 36px; }
+.witness-hero { display: flex; align-items: center; gap: 48px; }
+.reveal { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: start; }
+.reveal figure { margin: 0; display: flex; flex-direction: column; gap: 16px; }
+.reveal figure img, .reveal .drawing-tile { width: 640px; height: 480px; border-radius: var(--nb-radius-xl); object-fit: cover; }
+.reveal figure p { white-space: nowrap; }
+.scene-img { width: 100%; aspect-ratio: 4 / 3; border-radius: var(--nb-radius-md); }
+.banned { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; }
+.banned span { padding: 4px 10px; border-radius: 8px; background: var(--nb-color-ink); color: var(--nb-color-danger); font-weight: 900; text-decoration: line-through; }
+.ph-canvas { border-radius: var(--nb-radius-lg); overflow: hidden; background: #F6F1EA; aspect-ratio: 1; }
+.ph-canvas img { width: 100%; height: 100%; }
+.tv-foot { display: flex; justify-content: space-between; color: var(--nb-color-text-dim); font-size: var(--fs-caption); font-weight: 700; margin-top: auto; }
+.points-big { font-size: 48px; font-weight: 900; color: var(--nb-color-success); }
+</style>
+</head>
+<body data-screen="C1-artist" data-surface="phone">
+<main class="screen">
+<div class="ios-status"><span>9:41</span><span class="ios-status__icons">●●●● ᯤ ▮</span></div><header class="phone-top"><div><p class="phone-top__title">Composite Sketch · Round 4 of 8</p><p class="phone-top__sub">You&#x27;re an Artist</p></div></header><div class="phone-center"><div class="big-icon">✎</div><p class="t-title">Get ready to draw</p><p class="t-body t-dim">Lena will describe a scene out loud. Draw what you hear. No peeking at Lena's phone!</p><span class="timer-pill">0:05</span></div><div class="home-indicator"></div>
+</main>
+<script src="../shared/screens.js"></script>
+<script src="../shared/frame.js"></script>
+</body></html>

@@ -1,0 +1,65 @@
+/* NallaBox design tokens — spec §9 (docs/2026-11-19-nallabox-ui-ux-design.md).
+   Mirrors design/NallaBoxTheme.swift; tests/design/test_tokens.py keeps them in sync. */
+:root {
+  /* Colour (§9.1) */
+  --nb-color-ink: #1E1B2E;
+  --nb-color-ink-raised: #2B2742;
+  --nb-color-ink-line: #3A3556;
+  --nb-color-coral: #FF5C39;
+  --nb-color-coral-press: #E54826;
+  --nb-color-text: #FFFFFF;
+  --nb-color-text-dim: #B9B4CF;
+  --nb-color-success: #4ED19A;
+  --nb-color-danger: #FF6B7A;
+  --nb-color-paper: #FFF4EA;
+
+  /* Player colours — coral is reserved for the system */
+  --nb-player-saffron: #FFB020;
+  --nb-player-sky: #3DB7FF;
+  --nb-player-mint: #4ED19A;
+  --nb-player-lilac: #B58CFF;
+  --nb-player-pink: #FF7AB6;
+  --nb-player-lime: #C6E85A;
+  --nb-player-teal: #2EC4B6;
+  --nb-player-sand: #E9D8B4;
+
+  /* Type (§9.2) — Nunito */
+  --nb-font: "Nunito", ui-rounded, system-ui, sans-serif;
+  --nb-tv-display-size: 120px;  --nb-tv-display-weight: 900;
+  --nb-tv-title-size: 72px;     --nb-tv-title-weight: 900;
+  --nb-tv-heading-size: 52px;   --nb-tv-heading-weight: 800;
+  --nb-tv-body-size: 40px;      --nb-tv-body-weight: 700;
+  --nb-tv-label-size: 32px;     --nb-tv-label-weight: 800;
+  --nb-tv-caption-size: 36px;   --nb-tv-caption-weight: 700;
+  --nb-tv-label-tracking: 1px;     /* spec: TV labels +1 */
+  --nb-phone-display-size: 40px;  --nb-phone-display-weight: 900;
+  --nb-phone-title-size: 28px;    --nb-phone-title-weight: 800;
+  --nb-phone-heading-size: 22px;  --nb-phone-heading-weight: 800;
+  --nb-phone-body-size: 17px;     --nb-phone-body-weight: 700;
+  --nb-phone-label-size: 13px;    --nb-phone-label-weight: 800;
+  --nb-phone-caption-size: 15px;  --nb-phone-caption-weight: 600;
+  --nb-phone-label-tracking: 0px;  /* spec: no tracking on phone labels */
+
+  /* Spacing (§9.3) — 4 px steps */
+  --nb-space-1: 4px;  --nb-space-2: 8px;  --nb-space-3: 12px;  --nb-space-4: 16px;
+  --nb-space-5: 20px; --nb-space-6: 24px; --nb-space-7: 28px;  --nb-space-8: 32px;
+  --nb-space-9: 36px; --nb-space-10: 40px; --nb-space-11: 44px; --nb-space-12: 48px;
+
+  /* Radii, layout */
+  --nb-radius-sm: 8px;
+  --nb-radius-md: 14px;
+  --nb-radius-lg: 22px;
+  --nb-radius-xl: 32px;
+  --nb-tv-safe: 80px;
+  --nb-tv-gutter: 96px;
+  --nb-face-size: 160px;
+  --nb-phone-margin: 20px;
+  --nb-phone-action-height: 56px;
+  --nb-tap-min: 44px;
+
+  /* Motion (§9.6) */
+  --nb-dur-tap: 150ms;
+  --nb-dur-screen: 250ms;
+  --nb-dur-reveal: 400ms;
+  --nb-ease: cubic-bezier(.2, .9, .3, 1.1);
+}

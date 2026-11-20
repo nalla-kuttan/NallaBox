@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>I3 · Bet — NallaBox</title>
+<link rel="stylesheet" href="../shared/tokens.css">
+<link rel="stylesheet" href="../shared/base.css">
+<link rel="stylesheet" href="../shared/components.css">
+<link rel="stylesheet" href="../shared/frame.css"><style>
+.question { font-size: var(--fs-title); font-weight: 900; line-height: 1.2; }
+.choices { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+.surface-tv .choice { font-size: var(--fs-heading); --pad: 28px; }
+.surface-tv .choice__key { width: 1.5em; height: 1.5em; }
+.bets { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 12px; width: 100%; }
+.bet { display: inline-flex; align-items: center; gap: 8px; padding: 4px 12px 4px 4px; border-radius: 12px; background: rgba(30,27,46,.5); font-size: 30px; font-weight: 800; }
+.bet .avatar { --avatar: 40px; font-size: 20px; }
+.choice-col { display: flex; flex-direction: column; align-items: flex-start; }
+.waiting-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+.waiting-grid .avatar { --avatar: 52px; font-size: 26px; }
+.waiting-grid .player-chip { font-size: 36px; }
+.accuse-count { flex: none; min-width: 1.6em; padding: 0 .3em; border-radius: 10px; background: var(--nb-color-coral); color: #fff; font-weight: 900; text-align: center; }
+.unmask { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; flex: 1; min-height: 0; }
+.unmask__hero { display: flex; flex-direction: column; gap: 24px; justify-content: center; }
+.tv-foot { display: flex; justify-content: space-between; color: var(--nb-color-text-dim); font-size: var(--fs-caption); font-weight: 700; margin-top: auto; }
+.ph-q { font-size: calc(20px * var(--nb-text-scale, 1)); font-weight: 900; line-height: 1.25; }
+.ph-choices { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.ph-choices .choice { --pad: 12px; font-size: calc(16px * var(--nb-text-scale, 1)); }
+.result-hero { display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 22px 16px; border-radius: var(--nb-radius-xl); background: var(--nb-color-ink-raised); width: 100%; }
+.points-big { font-size: 44px; font-weight: 900; }
+.accuse-list { display: flex; flex-direction: column; gap: 8px; }
+.accuse-list .player-chip { --pad: 12px; border: 3px solid transparent; }
+.accuse-list .player-chip.is-selected { border-color: var(--nb-color-coral); }
+.chips-left { font-weight: 800; color: var(--nb-color-text-dim); font-size: var(--fs-caption); text-align: center; }
+</style>
+</head>
+<body data-screen="I3" data-surface="phone" data-states="betting,placed">
+<main class="screen">
+<div data-show-state="betting"><div class="ios-status"><span>9:41</span><span class="ios-status__icons">●●●● ᯤ ▮</span></div><header class="phone-top"><div><p class="phone-top__title">Insider Trading · Round 3 of 6</p><p class="phone-top__sub">Bet</p></div></header><div class="phone-body"><div class="row" style="justify-content:space-between"><p class="ph-q">Which planet has the most known moons?</p><span class="timer-pill">0:15</span></div><div class="ph-choices"><button class="choice"><span class="choice__key">A</span>Jupiter</button><button class="choice is-selected"><span class="choice__key">B</span>Saturn</button><button class="choice"><span class="choice__key">C</span>Uranus</button><button class="choice"><span class="choice__key">D</span>Neptune</button></div><div class="chip-slider"><div class="chip-slider__value"><span class="t-label t-dim">Your bet</span><b>400</b></div><input type="range" min="100" max="1000" step="100" value="400" aria-label="Bet"><div class="chip-slider__ends"><span>100</span><span>1,000</span></div></div><p class="chips-left">You have 5,500 chips</p></div><div class="phone-action"><button class="btn btn--primary" >Bet 400 on B</button></div><div class="home-indicator"></div></div><div data-show-state="placed"><div class="ios-status"><span>9:41</span><span class="ios-status__icons">●●●● ᯤ ▮</span></div><header class="phone-top"><div><p class="phone-top__title">Insider Trading · Round 3 of 6</p><p class="phone-top__sub">Bet</p></div></header><div class="phone-center"><div class="big-icon t-success">✓</div><p class="t-title">Bet placed</p><p class="t-heading">400 chips on B · Saturn</p><p class="t-body t-dim">Waiting on 3 players</p></div><div class="home-indicator"></div></div>
+</main>
+<script src="../shared/screens.js"></script>
+<script src="../shared/frame.js"></script>
+</body></html>

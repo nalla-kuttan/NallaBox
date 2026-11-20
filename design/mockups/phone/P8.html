@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>P8 · Waiting — NallaBox</title>
+<link rel="stylesheet" href="../shared/tokens.css">
+<link rel="stylesheet" href="../shared/base.css">
+<link rel="stylesheet" href="../shared/components.css">
+<link rel="stylesheet" href="../shared/frame.css"><style>
+.ph-logo { display: flex; align-items: center; gap: 10px; justify-content: center; padding: 12px 0 4px; font-weight: 900; font-size: calc(20px * var(--nb-text-scale, 1)); }
+.ph-logo img { width: 36px; height: 36px; }
+.room-chip { display: flex; align-items: center; justify-content: space-between; padding: 14px 16px; border-radius: var(--nb-radius-md); background: var(--nb-color-ink-raised); }
+.room-chip b { font-size: calc(24px * var(--nb-text-scale, 1)); font-weight: 900; letter-spacing: .2em; color: var(--nb-color-coral); }
+.who { display: grid; grid-template-columns: 1fr; gap: 8px; }
+.who .player-chip { --pad: 10px; font-size: calc(15px * var(--nb-text-scale, 1)); }
+.who .avatar { --avatar: 32px; }
+.me-card { display: flex; flex-direction: column; align-items: center; gap: 10px; padding: 20px; border-radius: var(--nb-radius-xl); background: var(--nb-color-ink-raised); }
+.spinner { width: 56px; height: 56px; border-radius: 50%; border: 6px solid var(--nb-color-ink-line); border-top-color: var(--nb-color-coral); animation: spin 1s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.auto-bar { width: 160px; height: 6px; border-radius: 3px; background: var(--nb-color-ink-line); overflow: hidden; }
+.auto-bar i { display: block; width: 55%; height: 100%; background: var(--nb-color-coral); }
+.avatars-row { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; }
+.rank-big { font-size: 72px; font-weight: 900; line-height: 1; color: var(--nb-color-coral); }
+.award-card { display: flex; align-items: center; gap: 12px; padding: 14px 16px; border-radius: var(--nb-radius-md); background: var(--nb-color-ink-raised); width: 100%; text-align: left; }
+.phone-game { display: flex; gap: 12px; align-items: center; padding: 12px; border-radius: var(--nb-radius-md); background: var(--nb-color-ink-raised); border: 3px solid transparent; }
+.phone-game.is-selected { border-color: var(--nb-color-coral); }
+.phone-game__art { width: 64px; height: 64px; flex: none; border-radius: 18px; display: grid; place-items: center; font-size: 26px; font-weight: 900; color: var(--nb-color-ink); }
+.phone-game p { font-size: calc(13px * var(--nb-text-scale, 1)); }
+.dimmed { filter: brightness(.6); }
+</style>
+</head>
+<body data-screen="P8" data-surface="phone">
+<main class="screen">
+<div class="ios-status"><span>9:41</span><span class="ios-status__icons">●●●● ᯤ ▮</span></div><header class="phone-top"><div><p class="phone-top__title">Redacted · Round 1</p></div></header><div class="phone-center"><div class="big-icon t-success" style="font-size:56px">✓</div><p class="t-title">Done!</p><p class="t-body t-dim">Waiting on 3 players</p><div class="avatars-row"><span class="avatar avatar--m" data-player="sky" aria-hidden="true">S</span><span class="avatar avatar--m" data-player="pink" aria-hidden="true">W</span><span class="avatar avatar--m" data-player="lime" aria-hidden="true">A</span></div></div><div class="phone-action"><button class="btn btn--secondary" >Change my answer</button></div><div class="home-indicator"></div>
+</main>
+<script src="../shared/screens.js"></script>
+<script src="../shared/frame.js"></script>
+</body></html>

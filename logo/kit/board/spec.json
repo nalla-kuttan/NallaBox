@@ -1,0 +1,54 @@
+{
+  "brand": "NallaBox",
+  "tagline": "Scan in. Play together.",
+  "brief": "NallaBox is an iOS party-game app: one Apple device drives the TV, and every guest plays from their phone by scanning a QR code, with no download and no account. The logo should feel playful, social, instant and a little mischievous, and avoid party-game clich\u00e9s like gamepads, dice, confetti and neon.",
+  "adjectives": [
+    "playful",
+    "social",
+    "instant",
+    "mischievous"
+  ],
+  "criteria": "Success: recognisable at 16 px as a favicon and app icon, works in one colour, stands apart from gamepad and neon party-game marks.",
+  "mockups": [
+    "app-icon",
+    "website",
+    "social",
+    "sticker",
+    "tshirt",
+    "favicon-tab"
+  ],
+  "nav": [
+    "Games",
+    "How it works",
+    "Download"
+  ],
+  "brand_color": "#FF5C39",
+  "greyscale": false,
+  "final": true,
+  "round": 2,
+  "designer": "NallaBox",
+  "concepts": [
+    {
+      "name": "Finder Face",
+      "symbol": "../master/nallabox-symbol-color.svg",
+      "lockup": "../master/nallabox-horizontal.svg",
+      "stacked": "../master/nallabox-stacked.svg",
+      "symbol_on_tile": "../master/nallabox-face-on-coral.svg",
+      "symbol_on_dark": "../master/nallabox-symbol-color.svg",
+      "lockup_on_dark": "../master/nallabox-horizontal-reversed.svg",
+      "stacked_on_dark": "../master/nallabox-stacked-reversed.svg",
+      "idea": "A QR-code eye that winks: scan to join, then bluff your friends.",
+      "rationale": [
+        "The eye is a QR finder square, the app's zero-install join",
+        "The wink carries the bluffing and hidden-role games; the smile keeps it friendly",
+        "The wordmark's square o repeats the box; one coral, one ink"
+      ]
+    }
+  ],
+  "recommendation": "Finder Face in Nalla Coral and Night Ink: the app icon is the logo, and the face can animate (wink, blink, grin) across the games.",
+  "next_steps": [
+    "Run a professional trademark search on the name and mark",
+    "Animate the wink for the app launch and lobby",
+    "Extend the face into reaction stickers for in-game moments"
+  ]
+}

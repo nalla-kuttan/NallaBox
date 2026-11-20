@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>I6 · Insider reveal — NallaBox</title>
+<link rel="stylesheet" href="../shared/tokens.css">
+<link rel="stylesheet" href="../shared/base.css">
+<link rel="stylesheet" href="../shared/components.css">
+<link rel="stylesheet" href="../shared/frame.css"><style>
+.question { font-size: var(--fs-title); font-weight: 900; line-height: 1.2; }
+.choices { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+.surface-tv .choice { font-size: var(--fs-heading); --pad: 28px; }
+.surface-tv .choice__key { width: 1.5em; height: 1.5em; }
+.bets { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 12px; width: 100%; }
+.bet { display: inline-flex; align-items: center; gap: 8px; padding: 4px 12px 4px 4px; border-radius: 12px; background: rgba(30,27,46,.5); font-size: 30px; font-weight: 800; }
+.bet .avatar { --avatar: 40px; font-size: 20px; }
+.choice-col { display: flex; flex-direction: column; align-items: flex-start; }
+.waiting-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+.waiting-grid .avatar { --avatar: 52px; font-size: 26px; }
+.waiting-grid .player-chip { font-size: 36px; }
+.accuse-count { flex: none; min-width: 1.6em; padding: 0 .3em; border-radius: 10px; background: var(--nb-color-coral); color: #fff; font-weight: 900; text-align: center; }
+.unmask { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; flex: 1; min-height: 0; }
+.unmask__hero { display: flex; flex-direction: column; gap: 24px; justify-content: center; }
+.tv-foot { display: flex; justify-content: space-between; color: var(--nb-color-text-dim); font-size: var(--fs-caption); font-weight: 700; margin-top: auto; }
+.ph-q { font-size: calc(20px * var(--nb-text-scale, 1)); font-weight: 900; line-height: 1.25; }
+.ph-choices { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.ph-choices .choice { --pad: 12px; font-size: calc(16px * var(--nb-text-scale, 1)); }
+.result-hero { display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 22px 16px; border-radius: var(--nb-radius-xl); background: var(--nb-color-ink-raised); width: 100%; }
+.points-big { font-size: 44px; font-weight: 900; }
+.accuse-list { display: flex; flex-direction: column; gap: 8px; }
+.accuse-list .player-chip { --pad: 12px; border: 3px solid transparent; }
+.accuse-list .player-chip.is-selected { border-color: var(--nb-color-coral); }
+.chips-left { font-weight: 800; color: var(--nb-color-text-dim); font-size: var(--fs-caption); text-align: center; }
+</style>
+</head>
+<body data-screen="I6" data-surface="phone" data-states="caught,escaped">
+<main class="screen">
+<div data-show-state="caught"><div class="ios-status"><span>9:41</span><span class="ios-status__icons">●●●● ᯤ ▮</span></div><header class="phone-top"><div><p class="phone-top__title">Insider Trading · Round 3 of 6</p><p class="phone-top__sub">Insider reveal</p></div></header><div class="phone-center"><span class="avatar avatar--l" data-player="mint" aria-hidden="true">M</span><p class="t-title">You caught Marcus!</p><p class="points-big t-success">+300 chips</p><p class="t-body t-dim">He pays every player who named him.</p><p class="chips-left">Now 6,200 chips</p></div><div class="home-indicator"></div></div><div data-show-state="escaped"><div class="ios-status"><span>9:41</span><span class="ios-status__icons">●●●● ᯤ ▮</span></div><header class="phone-top"><div><p class="phone-top__title">Insider Trading · Round 3 of 6</p><p class="phone-top__sub">Insider reveal</p></div></header><div class="phone-center"><span class="avatar avatar--l" data-player="mint" aria-hidden="true">M</span><p class="t-title">Marcus got away</p><p class="points-big" style="color:var(--nb-color-text-dim)">+0</p><p class="t-body t-dim">You named Dev. Marcus keeps his 10% cut.</p><p class="chips-left">5,900 chips</p></div><div class="home-indicator"></div></div>
+</main>
+<script src="../shared/screens.js"></script>
+<script src="../shared/frame.js"></script>
+</body></html>

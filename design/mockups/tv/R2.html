@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>R2 · Read-out — NallaBox</title>
+<link rel="stylesheet" href="../shared/tokens.css">
+<link rel="stylesheet" href="../shared/base.css">
+<link rel="stylesheet" href="../shared/components.css">
+<link rel="stylesheet" href="../shared/frame.css"><style>
+.passage { font-size: var(--fs-title); font-weight: 900; line-height: 1.25; }
+.blank { display: inline-block; min-width: 3.2em; padding: 0 .3em; border-radius: 12px; background: var(--nb-color-coral); color: var(--nb-color-ink); text-align: center; }
+.fill { color: var(--nb-color-coral); }
+.waiting-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+.waiting-grid .avatar { --avatar: 52px; font-size: 26px; }
+.waiting-grid .player-chip { font-size: 36px; }
+.reveal-grid { gap: 14px; }
+.reveal-grid .answer-tile { --pad: 14px; font-size: 30px; }
+.reveal-grid .answer-tile__author { font-size: 30px; margin-top: 4px; }
+.reveal-grid .voters { display: inline-flex; flex-wrap: nowrap; margin: 0 0 0 10px; vertical-align: middle; }
+.reveal-grid .voters .avatar { --avatar: 36px; font-size: 18px; }
+.surface-phone .answer-tile { --pad: 11px; font-size: calc(16px * var(--nb-text-scale, 1)); }
+.tile-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+.tile-grid .answer-tile { --pad: 22px; font-size: 36px; }
+.voters { display: flex; gap: 6px; margin-top: 10px; flex-wrap: wrap; }
+.voters .avatar { --avatar: 44px; font-size: 22px; }
+.tv-foot { display: flex; justify-content: space-between; color: var(--nb-color-text-dim); font-size: var(--fs-caption); font-weight: 700; margin-top: auto; }
+.readout-list { display: flex; gap: 16px; }
+.readout-list span { width: 64px; height: 64px; border-radius: 18px; display: grid; place-items: center; background: var(--nb-color-ink-raised); font-weight: 900; color: var(--nb-color-text-dim); }
+.readout-list span.is-done { background: var(--nb-color-ink-line); color: #fff; }
+.readout-list span.is-now { background: var(--nb-color-coral); color: #fff; }
+.ph-passage { font-size: calc(19px * var(--nb-text-scale, 1)); font-weight: 800; line-height: 1.4; padding: 14px 16px; border-radius: var(--nb-radius-md); background: var(--nb-color-ink-raised); }
+.ph-passage .blank { font-size: .85em; border-radius: 6px; min-width: 2.4em; }
+.vote-hint { font-size: var(--fs-caption); font-weight: 700; color: var(--nb-color-text-dim); text-align: center; }
+.result-hero { display: flex; flex-direction: column; align-items: center; gap: 10px; padding: 24px 16px; border-radius: var(--nb-radius-xl); background: var(--nb-color-ink-raised); }
+.points-big { font-size: 48px; font-weight: 900; color: var(--nb-color-success); }
+</style>
+</head>
+<body data-screen="R2" data-surface="tv">
+<main class="screen">
+<div class="tv-safe"><div class="tv-top"><div class="tv-top__left"><p class="t-label t-dim">Round 2 of 4 · Read-out</p></div><div class="tv-top__right"><div class="face-corner"><p class="face-corner__caption">Version 3: bakery, 1666.</p><img class="face" src="../shared/face/face-idle.svg" alt=""></div></div></div><p class="t-label t-coral">Version 3 of 9</p><p class="passage">The Great Fire of London began in a <span class="fill">bakery</span> on Pudding Lane in <span class="fill">1666</span>.</p><div class="readout-list"><span class="is-done">1</span><span class="is-done">2</span><span class="is-now">3</span><span class="">4</span><span class="">5</span><span class="">6</span><span class="">7</span><span class="">8</span><span class="">9</span></div><div class="tv-foot"><span>Listen. Voting opens after all 9.</span><span>Captions on</span></div></div>
+</main>
+<script src="../shared/screens.js"></script>
+<script src="../shared/frame.js"></script>
+</body></html>

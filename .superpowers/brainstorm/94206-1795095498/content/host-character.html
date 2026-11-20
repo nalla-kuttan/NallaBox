@@ -1,0 +1,94 @@
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;800;900&display=swap" rel="stylesheet">
+<style>
+  .tv { aspect-ratio: 16/9; border-radius: 10px; overflow: hidden; position: relative; font-family: 'Nunito', system-ui, sans-serif; background: #1E1B2E; color: #fff; padding: 4.5% 5%; box-sizing: border-box; }
+  .tv * { box-sizing: border-box; }
+  .tv .top { display: flex; justify-content: space-between; align-items: center; font-weight: 800; font-size: clamp(7px, .9vw, 12px); opacity: .75; }
+  .tv .timer { background: #FF5C39; color: #fff; opacity: 1; border-radius: 99px; padding: 2px 10px; font-weight: 900; }
+  .tv .q { font-weight: 900; font-size: clamp(11px, 1.8vw, 24px); line-height: 1.25; margin: 3% 0 3%; }
+  .tv .q b { background: #FF5C39; color: #1E1B2E; border-radius: 6px; padding: 0 .4em; }
+  .tv .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2.4% 3%; }
+  .tv .ans { background: #2B2742; border-radius: 10px; padding: 3% 4%; font-weight: 800; font-size: clamp(8px, 1.15vw, 15px); display: flex; gap: 8px; }
+  .tv .ans span { color: #FF5C39; font-weight: 900; }
+  .face { aspect-ratio: 1; flex: none; }
+  .cap { background: #fff; color: #1E1B2E; font-weight: 800; border-radius: 12px; padding: .5em .8em; font-size: clamp(8px, 1.05vw, 14px); line-height: 1.25; position: relative; }
+  .row { display: flex; gap: 4%; align-items: flex-start; }
+</style>
+
+<h2>How much of a character should the face be?</h2>
+<p class="subtitle">Same moment in Redacted: everyone is voting on which version is real. This sets how much animation work the TV needs and how the game "talks" to the room. I'd pick B: real personality from a handful of face states, without a full character to animate.</p>
+
+<template id="face">
+  <svg class="face" viewBox="32 32 192 192" xmlns="http://www.w3.org/2000/svg"><path fill="#fff" d="M80 76H108A12 12 0 0 1 120 88V116A12 12 0 0 1 108 128H80A12 12 0 0 1 68 116V88A12 12 0 0 1 80 76ZM144 94H180A8 8 0 0 1 188 102A8 8 0 0 1 180 110H144A8 8 0 0 1 136 102A8 8 0 0 1 144 94ZM168 161.3A80 80 0 0 1 88 161.3A8 8 0 0 1 96 147.4A64 64 0 0 0 160 147.4A8 8 0 0 1 168 161.3Z"/><path fill="#FF5C39" fill-rule="evenodd" d="M84 32H172A52 52 0 0 1 224 84V172A52 52 0 0 1 172 224H84A52 52 0 0 1 32 172V84A52 52 0 0 1 84 32ZM80 76H108A12 12 0 0 1 120 88V116A12 12 0 0 1 108 128H80A12 12 0 0 1 68 116V88A12 12 0 0 1 80 76ZM88 92H100A4 4 0 0 1 104 96V108A4 4 0 0 1 100 112H88A4 4 0 0 1 84 108V96A4 4 0 0 1 88 92ZM144 94H180A8 8 0 0 1 188 102A8 8 0 0 1 180 110H144A8 8 0 0 1 136 102A8 8 0 0 1 144 94ZM168 161.3A80 80 0 0 1 88 161.3A8 8 0 0 1 96 147.4A64 64 0 0 0 160 147.4A8 8 0 0 1 168 161.3Z"/></svg>
+</template>
+
+<template id="body">
+  <div class="q">The Great Fire of London began in a <b>&nbsp;?&nbsp;</b> on Pudding Lane.</div>
+  <div class="grid">
+    <div class="ans"><span>1</span>haunted laundromat</div>
+    <div class="ans"><span>2</span>bakery</div>
+    <div class="ans"><span>3</span>goose sanctuary</div>
+    <div class="ans"><span>4</span>competitive soup kitchen</div>
+    <div class="ans"><span>5</span>very small volcano</div>
+    <div class="ans"><span>6</span>wig shop</div>
+  </div>
+</template>
+
+<div class="options" style="display:flex;flex-direction:column;gap:18px">
+  <div class="option" data-choice="logo" onclick="toggleSelect(this)">
+    <div class="letter">A</div>
+    <div class="content" style="width:100%">
+      <h3>Logo only</h3>
+      <p>The face is just branding in the corner. The game talks through text and the read-aloud voice. Least work; least personality.</p>
+      <div class="tv" data-kind="a">
+        <div class="top"><span class="brandslot" style="display:flex;align-items:center;gap:6px"></span><span>Vote: which one is real?</span><span class="timer">0:18</span></div>
+        <div data-body></div>
+      </div>
+    </div>
+  </div>
+  <div class="option" data-choice="reactor" onclick="toggleSelect(this)">
+    <div class="letter">B</div>
+    <div class="content" style="width:100%">
+      <h3>Face reacts</h3>
+      <p>The face sits top-right with a short caption line. About 8 states (idle, blink, wink, grin, gasp, sleepy timer, celebrate, suspicious), swapped with a quick squash. Captions match the read-aloud voice.</p>
+      <div class="tv" data-kind="b">
+        <div class="row" style="justify-content:space-between;align-items:center">
+          <div class="top" style="gap:12px;flex:1"><span>Round 2 of 4 · Vote: which one is real?</span><span class="timer">0:18</span></div>
+          <div class="row" style="align-items:center;gap:10px;width:42%;justify-content:flex-end">
+            <div class="cap">Five of these are lies. Choose wisely.</div>
+            <div data-face style="width:30%"></div>
+          </div>
+        </div>
+        <div data-body></div>
+      </div>
+    </div>
+  </div>
+  <div class="option" data-choice="host" onclick="toggleSelect(this)">
+    <div class="letter">C</div>
+    <div class="content" style="width:100%">
+      <h3>Full host</h3>
+      <p>The face is a character with its own column: it introduces rounds, roasts answers and reads scores, with lip-sync and lots of lines. Most charm; much more animation and writing work, and slower rounds.</p>
+      <div class="tv" data-kind="c">
+        <div class="row" style="height:100%">
+          <div style="width:26%;display:flex;flex-direction:column;gap:6%;align-items:center;padding-top:2%">
+            <div data-face style="width:86%"></div>
+            <div class="cap">Ooh, someone wrote "goose sanctuary". Bold. I respect it. Now prove you know history.</div>
+          </div>
+          <div style="flex:1">
+            <div class="top"><span>Round 2 of 4 · Vote: which one is real?</span><span class="timer">0:18</span></div>
+            <div data-body></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  const face = document.getElementById('face'), body = document.getElementById('body');
+  document.querySelectorAll('[data-body]').forEach(el => el.appendChild(body.content.cloneNode(true)));
+  document.querySelectorAll('[data-face]').forEach(el => el.appendChild(face.content.cloneNode(true)));
+  document.querySelectorAll('.brandslot').forEach(el => {
+    const f = face.content.cloneNode(true); f.firstElementChild.style.width = '1.6em';
+    el.appendChild(f); el.append('nallabox · Round 2 of 4');
+  });
+</script>
