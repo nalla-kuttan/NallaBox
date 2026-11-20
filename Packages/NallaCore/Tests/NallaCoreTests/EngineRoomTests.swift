@@ -322,3 +322,9 @@ import Testing
     for v in screens { #expect((v.face.caption ?? "").count <= 48, "\(v.screen.screen): \(v.face.caption ?? "")") }
     #expect(Harness().tv().face == FaceCue(.wink, "Scan to join."))
 }
+
+@Test func hostSetsTimerDefault() {
+    var h = Harness.three()
+    h.send(.host(.setTimer(.x15)))
+    #expect(h.s.settings.timer == .x15)
+}
