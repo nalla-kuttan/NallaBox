@@ -1,0 +1,8 @@
+[
+  {"id": "r001", "text": "In 1923, a farmer in Kent was fined for teaching his {1} to {2}.", "answers": ["parrot", "whistle the anthem"], "family": true},
+  {"id": "r002", "text": "Police in Ohio arrested a man who had lived inside a {1} for six weeks.", "answers": ["billboard"], "family": true},
+  {"id": "r003", "text": "The first vending machine, built in ancient Egypt, sold {1}.", "answers": ["holy water"], "family": true},
+  {"id": "r004", "text": "A Swiss town holds a yearly contest to find the best {1} made of {2}.", "answers": ["snowman", "cheese"], "family": true},
+  {"id": "r005", "text": "Scientists found that cows produce more milk when they listen to {1}.", "answers": ["slow music"], "family": true},
+  {"id": "r006", "text": "A pub in Yorkshire banned customers from swearing at its {1}, which kept swearing back.", "answers": ["parrot"], "family": false}
+]

@@ -1,0 +1,8 @@
+[
+  {"id": "s001", "caption": "A raccoon in a tuxedo buying bread", "art": "🦝🤵🥖🏪", "image": null, "banned": ["raccoon", "tuxedo", "bread"], "family": true},
+  {"id": "s002", "caption": "A knight riding a giant snail to work", "art": "🛡️🐌💼🏢", "image": null, "banned": ["knight", "snail", "office"], "family": true},
+  {"id": "s003", "caption": "Grandma surfing a wave of spaghetti", "art": "👵🏄🍝🌊", "image": null, "banned": ["grandma", "surf", "pasta"], "family": true},
+  {"id": "s004", "caption": "A robot walking three tiny dogs", "art": "🤖🐕🐕🐕", "image": null, "banned": ["robot", "dog", "walk"], "family": true},
+  {"id": "s005", "caption": "A whale stuck in a phone box", "art": "🐋☎️📦😬", "image": null, "banned": ["whale", "phone", "box"], "family": true},
+  {"id": "s006", "caption": "A wizard losing a game of chess to a cat", "art": "🧙♟️🐈🏆", "image": null, "banned": ["wizard", "chess", "cat"], "family": true}
+]
