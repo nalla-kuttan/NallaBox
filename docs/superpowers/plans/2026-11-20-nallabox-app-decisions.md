@@ -1,0 +1,60 @@
+# NallaBox v1: build decisions
+
+Every call I made on your behalf while building (`Ruling:` lines, each with its cost if wrong), plus review notes. Copied from the build ledger on 2026-11-20.
+
+- Setup: Ruling: branch `nallabox-v1` in place instead of a worktree — the repo was just created (Task 1 Step 1 done during setup: commit 6651d03 on main) and XcodeGen paths are relative — cost if wrong: none, branch is isolated.
+- | T4 → T6 | Engine.reduce/nextWake/playerView/tvView; Event.join(ip:) | Ruling: drop `ip` from Event.join — rate limiting lives in the Hub (T6), engine never uses it — cost: none |
+- | T4 → T6 | Hub must build PlayerView {you, room} | Ruling: Engine also exposes `roomInfo(_:)` and `youInfo(_:_:)` so the hub wraps ScreenView into PlayerView — cost: none |
+- Task 1: Ruling: face imagesets are named `face-<state>` at the catalog root (no `Face/` namespace) — simpler asset names — cost: none.
+- Task 1: Ruling: the warning count excludes `appintentsmetadataprocessor` log lines ("Metadata extraction skipped") — they are build-tool notices, not compiler or asset warnings — cost: none.
+- Task 1: Ruling: Content is bundled as a folder reference (`Content/` in the bundle) like Controller, so the loader takes one directory — cost: none.
+- Task 2: Ruling: server messages carry `v` and `type`, and `id` only on `ack`/`error` (where it names the client message) — the spec's "every message has id" is meaningful only for client messages — cost: none.
+- Task 2: Ruling: added `DecodedMessage`/`WireError` structs (instead of a tuple Result) and `Wire.decodeServer` for test clients — cost: none.
+- Task 4: Ruling: `GameSession` only has `.test` (DEBUG) until each game task adds its case; `GameID.rules` returns nil for unbuilt games — tasks 10/11/13 add cases — cost: none.
+- Task 4: Ruling: `Event.join` carries the client message `id` (`.join(conn, id:, req, newToken:)`) so join errors echo it — cost: none.
+- Task 4: Ruling: removal uses `Effect.kick(pid, reason)` (hub sends `removed` then closes) instead of `.send(pid, .removed)` — cost: none.
+- Task 4: Ruling: `GameRules.job(for:players:)` is static (no game state yet during how-to) and `results(_:_ ctx:)` takes the context (for leader/summaries) — cost: none.
+- Task 4: Ruling: `nextWake` while paused still includes leader handoff and toast expiry (handoff runs while paused, per Review Focus 4) but no game deadlines — cost: none.
+- Task 4: Ruling: Insider-specific settings assertions move to Task 13; Task 4 checks the same rule with TestGame ("Test Game needs 3 players") — cost: none.
+- Task 4: Ruling: added `GameCard.pitch` (TV T4 copy) beside `tagline` (phone P5), `RoomState.joinURL`/`helpShown`, `Pause.byPlayer`, and P10 `byYou` (leader sees Resume) — from the mockups — cost: none.
+- Task 5: Ruling: LAN pick ranks en0 > en1 > any private-range address (Personal Hotspot `bridge100`) > other, never loopback/link-local — the plan said "en0 > en1 > other"; private-first avoids VPN/CGNAT addresses — cost: low.
+- Task 6: Ruling: `RoomServer` is an actor (with `nonisolated let hub`) rather than a `final class: Sendable` — it owns mutable listener/pump state — cost: none (callers already await).
+- Task 6: Ruling: `ping` is answered by the hub for joined and unjoined connections alike (clock offset is needed before join for P1 timers) — cost: none.
+- Task 6: Ruling: hub timer tests poll with `eventually {}` after `ManualClock.advance` (actor hops make the wake asynchronous) — cost: none.
+- Task 7: Ruling: controller test command is `node --test 'tests/controller/*.test.mjs'` (Node 24 runs a directory argument as a file); a root `package.json` sets `"type": "module"` so tests import the controller's `.js` ES modules — cost: none.
+- Task 7: Ruling: P3 "Change name or colour" and P4 "Room settings" buttons are left out — the protocol has no rename message and room settings live in P6 — cost: low (players can rejoin to rename).
+- Task 7: Ruling: P5 rows use the mockup class `.phone-game` (plan said `.game-row`); P6 gains a small "Choose another game" link so the leader can go back — cost: none.
+- Task 7: Ruling: "Choose a game" on P4 sends `preview_game redacted` (enters the picker with the first game highlighted) — there is no separate "open picker" action — cost: none.
+- Task 8: Ruling: `TVPayloadTests.roomScreensDecode` passed on first run, as the plan expected (contract test on Tasks 4/6) — no RED by design — cost: none.
+- Task 8: Ruling: added `HostAction.setTimer` (test-first, `hostSetsTimerDefault`) so the M5 timer default reaches the room — cost: none.
+- Task 8: Ruling: TV copy uses "their phone" where the mockups said "her phone" (names don't tell us pronouns) — cost: none.
+- Task 8: Ruling: Mac debug aid `-tvSnapshotDir <dir>` renders each new TV screen to PNG via ImageRenderer (used for visual checks here and in Task 17) — cost: none (debug-only behaviour, no effect without the flag).
+- Task 9: Ruling: added `HostAction.endGame` (test-first, `hostEndsGameWithoutClosingRoom`) for the Mac toolbar's "End game" (mockup M2/M3), separate from End session — cost: none.
+- Task 9: Ruling: caption size is Medium/Large/Extra large (36/44/52 pt) per mockup M5, replacing the plan's `largeCaptions` bool — cost: none.
+- Task 9: Ruling: the user declined computer-use access to the Mac app, so Mac screens were verified by debug-only ImageRenderer snapshots (`-tvSnapshotDir` + `-autoStartRoom YES`, DEBUG builds only): M1, M2, M4 panel, M5 render to the mockup layout. The Mac "this window" full-screen (M3) path and the second-display TV window were built but not exercised by hand — cost: medium (to re-check in Task 17 or by the user).
+- Task 9: Ruling: iPhone simulator can't attach an external display from the command line, so a DEBUG-only `-simulateTV YES` launch flag marks a TV as connected. Verified in the simulator: H1 → H2 (local network granted) → H3 connected → H4 → H5 (host controller joins as player 1/leader; 2 bot guests appear live) → H6 menu. H7 (TV disconnect) and H8 (background pause) need a running game — re-check in Task 10 — cost: low.
+- Task 9: Ruling: iOS Info.plist gains `NSAppTransportSecurity.NSAllowsLocalNetworking` so the host's web view and self-test can use plain HTTP to the local server — cost: none.
+- Task 9: Ruling: NallaCore's content type `Scene` shadows SwiftUI's in the iOS app file; the App uses `some SwiftUI.Scene` — cost: none.
+- Task 10: Ruling: R1 "submitted" is a flag on the R1 phone payload (the controller shows the P8-style Done screen and "Change my answer" reopens the form), instead of switching the screen id to P8 — keeps the passage and blank count available to the form — cost: none.
+- Task 10: Ruling: controller R1–R5 tests were written together with the screens; I proved they bite by running them with the module stubbed out (0/7 pass) and restored (7/7) — cost: none.
+- Task 10: Ruling: `test_redactedFullGame` passed on its first run (the rules and server were already wired, so it is an integration test on Tasks 2–6 and 10) — cost: none.
+- Task 10: Manual check (Mac host + browser pane as leader + 3 auto bots, full 2+final game): P5/P6, R1 too-close inline error and draft kept, R2, R3 (own greyed), R4 phone (+2,000), R5, T10 all correct; TV snapshots R1–R5/T10 match the mockups. Fixed: TV timer wrapping ("1:0/0"), podium name truncation, award note truncation.
+- Task 10: Manual check (iPhone simulator host + 2 bots): host starts Redacted from its own controller; Home → guests see P10; return → H8 alert; Resume → game continues. Fixed: double-tap zoom in the host's web view (zoom now disabled).
+- Task 11: Ruling: during the pick (C3) the Witness sees only the drawings, not the scene (mockup C3-witness); the scene is on the Witness phone in C1–C2 and on the TV at C4 — cost: none.
+- Task 11: Ruling: an artist's C2 "done" state is a flag on C2-artist (like Redacted R1), and an artist with no drawing gets C3-artist with no number ("You didn't draw this round") — cost: none.
+- Task 11: Ruling: points are clamped into 0…1 and a trailing odd coordinate is dropped (besides the plan's colour/size/2,000-point rules) — cost: none.
+- Task 12: Found (to fix): P7 "Your job" has no leader pill, so the leader can't skip the how-to from their phone (TV says they can).
+- Task 12: Fixed P7 leader pill (test-first, `P7 gives the leader the pill…`) so the leader can skip the how-to from the leader sheet.
+- Task 12: Ruling: C1-artist has no hold card (mockup C1-artist), so the test asserts the Witness card holds the secret and the artist page has none — the plan's "both have a hold card" contradicts the mockup — cost: low (the Witness is announced on the TV anyway).
+- Task 12: Manual check (Mac host + browser + 2 bots, full 3-round game): hold-to-reveal shows scene + banned words; witness pick → C4 +500; drawing with the mouse, Undo, I'm done; C5 vote; TV C1–C6 snapshots match the mockups. Fixed: C4 caption now wraps.
+- Task 13: Ruling: the public answer on I4 uses `correctKey`/`correctText`, so `answerKey` only ever appears in the Insider's own I1/I2 payload (privacy check stays meaningful) — cost: none.
+- Task 13: Ruling: discuss (30 s) scales with the timer setting and has no deadline when it's off (leader skips) — plan said "input-free but multiplied" — cost: low.
+- Task 13: Ruling: the Insider also accuses (to blend in) but can't name themselves; majority = more than half of the non-Insider players — from mockup I5/I6 ("6 of 8 voted", "5 of 7 named him") — cost: none.
+- Task 14: Ruling: I3 "Bet placed" offers "Change my bet" (the rules allow re-betting until the deadline) — mockup shows no button — cost: none.
+- Task 15: Ruling: "inputs kept and resent" is an outbox of game messages made while offline (submit, strokes, votes, bets), resent once after reconnecting if they match the current screen and round — not auto-submitting typed drafts (drafts stay prefilled instead) — cost: low.
+- Task 15: Ruling: `net.send` now returns null when offline instead of an id for a message it silently dropped — cost: none.
+- Task 16: Ruling: Redacted passages are true, checkable facts (the PRD's "real text" premise) — the earlier 6 placeholder passages included made-up ones and were replaced; 26 scenes (3 banned words each) and 120 questions with answers rotated evenly across A–D — cost: low (content can be edited in the JSON).
+- Final: fixed drawing interrupted when another artist finishes (C2-artist view changed → phone redrew mid-stroke) — drawingPhoneDoesNotChangeWhenOthersFinish RED→GREEN, core suite 91/91.
+- Final: Ruling: Screen Wake Lock can't work on phones because the controller is served over plain HTTP (the API needs a secure context), so guests' phones may auto-lock during long no-touch phases (read-out, discuss); the page reconnects and resumes on unlock. Not fixed (needs a different keep-awake technique, e.g. a bundled silent looping video) — cost if wrong: medium (annoyance mid-round, no lost game state).
+- Final: minor (deferred): if the host removes a future Composite Sketch Witness, that round has no Witness; the pick waits for its timer (or a leader skip when the timer is off).
+- Final: minor (deferred): redrawing the Redacted form while others submit relies on focus/caret restore; it worked in testing but a fixed view (like the Sketch fix) would be sturdier.
