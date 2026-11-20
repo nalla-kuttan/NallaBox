@@ -2,6 +2,8 @@
 import { connect, clockOffset } from './net.js';
 import { render } from './render/index.js';
 import { bindHoldCards } from './hold.js';
+import { saveDraft, loadDraft } from './drafts.js';
+import './render/redacted.js';
 
 const $app = document.getElementById('app');
 const params = new URLSearchParams(location.search);
@@ -26,6 +28,7 @@ const ui = {
   offset: 0,
   toast: null,
   removedReason: null,
+  loadDraft,
 };
 window.__nb = ui; // handy when debugging on a phone
 
@@ -164,6 +167,13 @@ const actions = {
   send({ type, fields }) { net.send(type, fields ?? {}); },
   local(patch) { Object.assign(ui.local, patch); draw(); },
   retry() { failures = 0; ui.mode = 'reconnecting'; draw(); net.retry(); },
+  'submit-text'({ round }) {
+    const fields = [...$app.querySelectorAll('[data-blank]')].map((i) => i.value.trim());
+    net.send('submit_text', { round, fields });
+    ui.local.changing = false;
+    ui.local.error = null;
+    draw();
+  },
   rejoin() { seat = null; ui.mode = 'join'; ui.view = null; ui.join.error = null; draw(); },
   reclaim() { ui.mode = 'reconnecting'; draw(); net.retry(); },
 };
@@ -186,6 +196,12 @@ $app.addEventListener('keydown', (e) => {
 $app.addEventListener('input', (e) => {
   if (e.target.id === 'join-name') { ui.join.name = e.target.value; draw(); }
   else if (e.target.id === 'join-room') { ui.join.room = e.target.value.toUpperCase(); draw(); }
+  else if (e.target.dataset.blank) {
+    const box = e.target.closest('[data-draft]');
+    if (box) saveDraft(box.dataset.draft, [...box.querySelectorAll('[data-blank]')].map((i) => i.value));
+    if (ui.local.error && String(ui.local.error.field) === e.target.dataset.blank) ui.local.error = null;
+    draw();
+  }
   else document.dispatchEvent(new CustomEvent('nb:input', { detail: { el: e.target, ui, net, draw } }));
 });
 

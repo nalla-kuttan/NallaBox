@@ -87,6 +87,7 @@ struct TVTimer: View {
             let s = max(0, Int((deadline - ctx.date.timeIntervalSince1970).rounded(.up)))
             Text("\(s / 60):\(String(format: "%02d", s % 60))")
                 .font(NB.TVType.heading.weight(.black)).monospacedDigit()
+                .lineLimit(1).fixedSize()
                 .foregroundStyle(.white)
                 .padding(.horizontal, 31).padding(.vertical, 10)
                 .frame(minWidth: 166)

@@ -234,7 +234,8 @@ struct ResultsScreen: View {
         let p = data.podium
         let order: [(Standing?, CGFloat, Bool)] = [(p.count > 1 ? p[1] : nil, 130, false), (p.first, 180, true), (p.count > 2 ? p[2] : nil, 100, false)]
         // One size for all three names so they read as a set (long names drop to body size).
-        let nameFont = p.contains { $0.player.name.count > 8 } ? NB.TVType.body.weight(.heavy) : NB.TVType.heading
+        let longest = p.map(\.player.name.count).max() ?? 0
+        let nameFont: Font = .custom("Nunito", size: longest > 10 ? 34 : longest > 7 ? 42 : 52).weight(.heavy)
         return HStack(alignment: .bottom, spacing: 24) {
             ForEach(0..<3, id: \.self) { i in
                 VStack(spacing: 12) {
@@ -260,7 +261,7 @@ struct ResultsScreen: View {
             VStack(alignment: .leading, spacing: 2) {
                 TVText.label(a.title).foregroundStyle(NB.Palette.coral)
                 Text(a.player.name).font(NB.TVType.body).lineLimit(1)
-                Text(a.note).font(NB.TVType.caption).foregroundStyle(NB.Palette.textDim).lineLimit(1).minimumScaleFactor(0.7)
+                Text(a.note).font(NB.TVType.caption).foregroundStyle(NB.Palette.textDim).lineLimit(2).fixedSize(horizontal: false, vertical: true)
             }
         }
         .padding(.horizontal, 24).padding(.vertical, 20)

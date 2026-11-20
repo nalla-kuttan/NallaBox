@@ -93,7 +93,7 @@ struct TVRootView: View {
 /// Game screens register here (Tasks 10, 12, 14).
 enum GameScreens {
     @MainActor static func view(for tv: TVView) -> AnyView? {
-        nil
+        RedactedTV.view(for: tv)
     }
 }
 
