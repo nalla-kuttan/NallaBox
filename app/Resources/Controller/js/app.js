@@ -5,6 +5,7 @@ import { bindHoldCards } from './hold.js';
 import { saveDraft, loadDraft } from './drafts.js';
 import './render/redacted.js';
 import './render/sketch.js';
+import './render/insider.js';
 import { createDrawing, mountCanvas } from './canvas.js';
 
 const $app = document.getElementById('app');
@@ -231,6 +232,7 @@ $app.addEventListener('keydown', (e) => {
 $app.addEventListener('input', (e) => {
   if (e.target.id === 'join-name') { ui.join.name = e.target.value; draw(); }
   else if (e.target.id === 'join-room') { ui.join.room = e.target.value.toUpperCase(); draw(); }
+  else if (e.target.id === 'bet-chips') { ui.local.chips = Number(e.target.value); draw(); }
   else if (e.target.dataset.blank) {
     const box = e.target.closest('[data-draft]');
     if (box) saveDraft(box.dataset.draft, [...box.querySelectorAll('[data-blank]')].map((i) => i.value));

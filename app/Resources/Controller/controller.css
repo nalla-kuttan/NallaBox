@@ -62,3 +62,12 @@ button:disabled { cursor: not-allowed; }
 .scene-art { font-size: 72px; line-height: 1.1; text-align: center; letter-spacing: 4px; }
 .banned { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; }
 .banned span { padding: 4px 10px; border-radius: 8px; background: var(--nb-color-ink); color: var(--nb-color-danger); font-weight: 900; text-decoration: line-through; }
+
+/* Insider Trading (design/mockups/_build/pages_insider.py) */
+.ph-q { font-size: calc(20px * var(--nb-text-scale, 1)); font-weight: 900; line-height: 1.25; }
+.ph-choices { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.ph-choices .choice { --pad: 12px; font-size: calc(16px * var(--nb-text-scale, 1)); min-height: 44px; text-align: left; width: 100%; color: inherit; }
+.accuse-list { display: flex; flex-direction: column; gap: 8px; }
+.accuse-list .player-chip { --pad: 12px; border: 3px solid transparent; width: 100%; text-align: left; color: inherit; font: inherit; font-weight: 800; }
+.accuse-list .player-chip.is-selected { border-color: var(--nb-color-coral); }
+.chips-left { font-weight: 800; color: var(--nb-color-text-dim); font-size: var(--fs-caption); text-align: center; }

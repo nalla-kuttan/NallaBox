@@ -166,3 +166,48 @@ struct Table {
         }
     }
 }
+
+@Test func insiderFullGame() async throws {
+    let t = try await Table.open(ports: 19580...19589, names: [("Priya", .saffron), ("Sam", .sky), ("Lena", .lilac), ("Dev", .teal)])
+    defer { Task { [t] in await t.close() } }
+    try await t.lead("pick_game", ["game": .string("insider")])
+    try await t.lead("start")
+    #expect(await t.waitAll { $0.lastView?.screen == "P7" })
+    try await t.lead("skip")
+    var expected = [5000, 5000, 5000, 5000]
+
+    for round in 1...6 {
+        #expect(await t.waitAll { $0.lastView?.screen.hasPrefix("I1") == true && $0.lastView?.data["top"]?.string?.contains("Round \(round) ") == true },
+                "round \(round) never started")
+        let insider = (0..<4).first { t.screen($0) == "I1-insider" }!
+        let answer = ["A", "B", "C", "D"].firstIndex(of: t.phones[insider].lastView!.data["answerKey"]!.string!)!
+        #expect(await t.advanceUntil { t in (0..<4).allSatisfy { t.screen($0) == "I3" } })
+        for (i, p) in t.phones.enumerated() {
+            let choice = i == insider ? answer : 0
+            try await p.send("place_bet", ["round": .number(Double(round)), "choice": .number(Double(choice)), "chips": .number(100)])
+            expected[i] += choice == answer ? 100 : -100
+        }
+        #expect(await t.advanceUntil { t in (0..<4).allSatisfy { t.screen($0) == "I5" } })
+        let ids = t.phones.map { $0.playerId! }
+        for (i, p) in t.phones.enumerated() {
+            let target = i == insider ? ids[(insider + 1) % 4] : ids[insider]
+            try await p.send("cast_vote", ["round": .number(Double(round)), "choice": .number(Double(target))])
+            if i != insider { expected[i] += 300 }
+        }
+        expected[insider] -= 900
+        #expect(await t.waitAll { $0.lastView?.screen == "I6" })
+        #expect(t.phones[insider].lastView?.data["caught"]?.bool == true)
+        #expect(await t.advanceUntil(step: 2) { t in (0..<4).allSatisfy { round < 6 ? t.screen($0).hasPrefix("I1") : t.screen($0) == "P12" } })
+    }
+
+    let final = t.phones.map { try? $0.lastView!.data.decode(PhoneResultsData.self) }
+    #expect(final.map { $0?.points } == expected)
+    #expect(final.contains { $0?.award?.title == "Best Detective" })
+
+    // Only the round's Insider ever received the answer before the reveal.
+    for p in t.phones {
+        for v in p.views where v.data.jsonText.contains("answerKey") {
+            #expect(v.screen.hasSuffix("-insider"), "answerKey reached a \(v.screen) view")
+        }
+    }
+}
