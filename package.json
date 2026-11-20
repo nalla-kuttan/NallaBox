@@ -1,0 +1,6 @@
+{
+  "name": "nallabox",
+  "private": true,
+  "type": "module",
+  "scripts": { "test": "node --test 'tests/controller/*.test.mjs'" }
+}

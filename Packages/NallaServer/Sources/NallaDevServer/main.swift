@@ -47,7 +47,12 @@ struct DevServer {
             }
         }
         let keys = Task.detached {
-            while let line = readLine() {
+            while true {
+                // No terminal attached (run in the background): keep serving until killed.
+                guard let line = readLine() else {
+                    try? await Task.sleep(for: .seconds(86_400 * 365))
+                    return
+                }
                 switch line.trimmingCharacters(in: .whitespaces) {
                 case "p":
                     let paused = await hub.currentTV().overlays.paused != nil

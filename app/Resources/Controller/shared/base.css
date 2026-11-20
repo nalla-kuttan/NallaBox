@@ -1,0 +1,20 @@
+@font-face {
+  font-family: "Nunito";
+  src: url("fonts/nunito-wght.woff2") format("woff2");
+  font-weight: 200 1000;
+  font-style: normal;
+  font-display: block;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html { font-size: calc(16px * var(--nb-text-scale, 1)); -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  font-family: var(--nb-font);
+  background: #121019;
+  color: var(--nb-color-text);
+  -webkit-font-smoothing: antialiased;
+}
+h1, h2, h3, h4, p { margin: 0; }
+button, input { font: inherit; color: inherit; }
+img, svg { display: block; }

@@ -1,0 +1,37 @@
+/* Real-phone layout on top of the mockup CSS (shared/*.css are byte copies of design/mockups/shared). */
+html, body { height: 100%; margin: 0; background: var(--nb-color-ink); overscroll-behavior: none; }
+body { -webkit-tap-highlight-color: transparent; -webkit-text-size-adjust: 100%; touch-action: manipulation; }
+#app { position: fixed; inset: 0; height: 100dvh; width: 100vw; padding-top: env(safe-area-inset-top); box-sizing: border-box; }
+#app .phone-action { padding-bottom: max(16px, calc(env(safe-area-inset-bottom) + 12px)); }
+#app .phone-body { padding-bottom: calc(var(--nb-phone-action-height) + 72px + env(safe-area-inset-bottom)); }
+button, [role="button"] { cursor: pointer; font: inherit; color: inherit; }
+button:disabled { cursor: not-allowed; }
+:focus-visible { outline: 3px solid var(--nb-color-coral); outline-offset: 2px; }
+@media (prefers-reduced-motion: reduce) { .spinner { animation-duration: 3s; } }
+
+/* Page CSS from design/mockups/_build/pages_phone.py */
+.ph-logo { display: flex; align-items: center; gap: 10px; justify-content: center; padding: 12px 0 4px; font-weight: 900; font-size: calc(20px * var(--nb-text-scale, 1)); }
+.ph-logo img { width: 36px; height: 36px; }
+.room-chip { display: flex; align-items: center; justify-content: space-between; padding: 14px 16px; border-radius: var(--nb-radius-md); background: var(--nb-color-ink-raised); }
+.room-chip b { font-size: calc(24px * var(--nb-text-scale, 1)); font-weight: 900; letter-spacing: .2em; color: var(--nb-color-coral); }
+.who { display: grid; grid-template-columns: 1fr; gap: 8px; }
+.who .player-chip { --pad: 10px; font-size: calc(15px * var(--nb-text-scale, 1)); }
+.who .avatar { --avatar: 32px; }
+.me-card { display: flex; flex-direction: column; align-items: center; gap: 10px; padding: 20px; border-radius: var(--nb-radius-xl); background: var(--nb-color-ink-raised); text-align: center; }
+.spinner { width: 56px; height: 56px; border-radius: 50%; border: 6px solid var(--nb-color-ink-line); border-top-color: var(--nb-color-coral); animation: spin 1s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.auto-bar { width: 160px; height: 6px; border-radius: 3px; background: var(--nb-color-ink-line); overflow: hidden; }
+.auto-bar i { display: block; width: 100%; height: 100%; background: var(--nb-color-coral); transition: width .25s linear; }
+.avatars-row { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; }
+.rank-big { font-size: 72px; font-weight: 900; line-height: 1; color: var(--nb-color-coral); }
+.award-card { display: flex; align-items: center; gap: 12px; padding: 14px 16px; border-radius: var(--nb-radius-md); background: var(--nb-color-ink-raised); width: 100%; text-align: left; }
+.phone-game { display: flex; gap: 12px; align-items: center; padding: 12px; border-radius: var(--nb-radius-md); background: var(--nb-color-ink-raised); border: 3px solid transparent; }
+.phone-game.is-selected { border-color: var(--nb-color-coral); }
+.phone-game__art { width: 64px; height: 64px; flex: none; border-radius: 18px; display: grid; place-items: center; font-size: 26px; font-weight: 900; color: var(--nb-color-ink); }
+.phone-game p { font-size: calc(13px * var(--nb-text-scale, 1)); }
+.field__input--code { text-transform: uppercase; letter-spacing: .2em; font-weight: 900; }
+.sheet__item { width: 100%; text-align: left; border: 0; }
+
+/* Transient error toast */
+.ctrl-toast { position: absolute; left: 16px; right: 16px; top: calc(env(safe-area-inset-top) + 12px); z-index: 30; padding: 12px 16px;
+  border-radius: var(--nb-radius-md); background: var(--nb-color-danger); color: var(--nb-color-ink); font-weight: 800; text-align: center; }
