@@ -162,3 +162,11 @@ private func number(_ h: Harness, artist: PlayerID) -> Int { st(h).drawings.firs
     #expect(on.phone(1).screen == "C2-witness")
     #expect(on.phone(2).screen == "C2-artist")
 }
+
+@Test func drawingPhoneDoesNotChangeWhenOthersFinish() {
+    var h = sketch()
+    h.advance(5)
+    let before = h.phone(2)
+    h.msg(3, .strokeData(round: 1, strokes: [line], final: true))
+    #expect(h.phone(2) == before)   // an unchanged view isn't re-sent, so a stroke in progress isn't interrupted
+}

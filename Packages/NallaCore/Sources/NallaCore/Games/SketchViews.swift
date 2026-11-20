@@ -72,7 +72,8 @@ extension Sketch {
                 return ScreenView("C2-witness", deadline: st.deadline, payload: C1WitnessPhone(top: t, scene: card(st.scene), banned: banned,
                     hint: "Hold to peek again any time."))
             }
-            let waiting = st.artists.filter { !st.finals.contains($0) && $0 != id }.compactMap { ctx.summary($0) }
+            // Only a finished artist sees who's still drawing; while drawing, the view stays fixed so the phone never redraws mid-stroke.
+            let waiting = st.finals.contains(id) ? st.artists.filter { !st.finals.contains($0) && $0 != id }.compactMap { ctx.summary($0) } : []
             return ScreenView("C2-artist", deadline: st.deadline, payload: C2ArtistPhone(
                 top: t, round: st.round, witnessName: wName, done: st.finals.contains(id), waitingOn: waiting))
         case .pick:
