@@ -39,3 +39,17 @@ import Testing
     #expect(lib.questions.count >= 6)
     #expect(lib.profanity.contains("oh shit"))
 }
+
+@Test func starterContentCounts() throws {
+    let lib = try ContentLibrary.load(from: Fixtures.contentDir)
+    #expect(lib.passages.count >= 40)
+    #expect(lib.scenes.count >= 24)
+    #expect(lib.questions.count >= 120)
+    #expect(Double(lib.passages.filter(\.family).count) >= 0.8 * Double(lib.passages.count))
+    #expect(Double(lib.scenes.filter(\.family).count) >= 0.8 * Double(lib.scenes.count))
+    #expect(Double(lib.questions.filter(\.family).count) >= 0.8 * Double(lib.questions.count))
+    #expect(lib.scenes.allSatisfy { $0.banned.count == 3 })
+    #expect(lib.passages.filter(\.family).allSatisfy { !$0.answers.contains(where: lib.profanity.contains) && !lib.profanity.contains($0.text) })
+    // Answers spread across A–D so a pattern can't be learned.
+    for a in 0...3 { #expect(lib.questions.filter { $0.answer == a }.count >= 20) }
+}
