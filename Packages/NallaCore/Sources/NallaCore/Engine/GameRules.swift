@@ -108,6 +108,7 @@ public protocol GameRules {
 /// The running game's state, one case per game.
 public enum GameSession: Equatable, Sendable {
     case redacted(Redacted.State)
+    case sketch(Sketch.State)
     #if DEBUG
     case test(TestGame.State)
     #endif
@@ -115,6 +116,7 @@ public enum GameSession: Equatable, Sendable {
     public var rules: any GameRules.Type {
         switch self {
         case .redacted: Redacted.self
+        case .sketch: Sketch.self
         #if DEBUG
         case .test: TestGame.self
         #endif
@@ -127,7 +129,8 @@ extension GameID {
     public var rules: (any GameRules.Type)? {
         switch self {
         case .redacted: Redacted.self
-        case .sketch, .insider: nil
+        case .sketch: Sketch.self
+        case .insider: nil
         #if DEBUG
         case .test: TestGame.self
         #endif
