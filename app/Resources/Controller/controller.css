@@ -44,3 +44,21 @@ button:disabled { cursor: not-allowed; }
 .vote-hint { font-size: var(--fs-caption); font-weight: 700; color: var(--nb-color-text-dim); text-align: center; }
 .result-hero { display: flex; flex-direction: column; align-items: center; gap: 10px; padding: 24px 16px; border-radius: var(--nb-radius-xl); background: var(--nb-color-ink-raised); width: 100%; }
 .points-big { font-size: 48px; font-weight: 900; color: var(--nb-color-success); }
+
+/* Composite Sketch (design/mockups/_build/pages_sketch.py) */
+.drawing-tile { position: relative; aspect-ratio: 1; border-radius: var(--nb-radius-lg); overflow: hidden; background: #F6F1EA; border: 4px solid transparent; padding: 0; width: 100%; display: block; }
+.drawing-tile svg { width: 100%; height: 100%; display: block; }
+.drawing-tile__num { position: absolute; left: 6px; top: 6px; min-width: 1.6em; height: 1.6em; padding: 0 .3em; border-radius: 6px; display: grid; place-items: center;
+  background: var(--nb-color-ink); color: #fff; font-weight: 900; font-size: calc(13px * var(--nb-text-scale, 1)); }
+.drawing-tile__who { position: absolute; left: 6px; right: 6px; bottom: 6px; display: flex; align-items: center; gap: 6px; padding: 4px 8px; border-radius: 10px;
+  background: rgba(30, 27, 46, .85); color: #fff; font-weight: 800; font-size: 13px; }
+.drawing-tile__who .avatar { --avatar: 20px; font-size: 11px; }
+.drawing-tile.is-selected { border-color: var(--nb-color-coral); }
+.drawing-tile.is-mine { opacity: .45; }
+.thumbs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.ph-canvas { border-radius: var(--nb-radius-lg); overflow: hidden; background: #F6F1EA; aspect-ratio: 1; width: 100%; max-width: 70dvh; align-self: center; }
+.ph-canvas canvas { width: 100%; height: 100%; display: block; touch-action: none; }
+.scene-img { width: 100%; aspect-ratio: 4 / 3; border-radius: var(--nb-radius-md); }
+.scene-art { font-size: 72px; line-height: 1.1; text-align: center; letter-spacing: 4px; }
+.banned { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; }
+.banned span { padding: 4px 10px; border-radius: 8px; background: var(--nb-color-ink); color: var(--nb-color-danger); font-weight: 900; text-decoration: line-through; }

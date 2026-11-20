@@ -4,6 +4,8 @@ import { render } from './render/index.js';
 import { bindHoldCards } from './hold.js';
 import { saveDraft, loadDraft } from './drafts.js';
 import './render/redacted.js';
+import './render/sketch.js';
+import { createDrawing, mountCanvas } from './canvas.js';
 
 const $app = document.getElementById('app');
 const params = new URLSearchParams(location.search);
@@ -122,6 +124,7 @@ function draw() {
   const sel = focusId && 'selectionStart' in active ? [active.selectionStart, active.selectionEnd] : null;
   $app.innerHTML = render(ui.view, ui);
   bindHoldCards($app);
+  mountDrawing();
   document.dispatchEvent(new CustomEvent('nb:drawn', { detail: { root: $app, ui, net } }));
   if (focusId) {
     const el = document.getElementById(focusId);
@@ -144,6 +147,35 @@ function tick() {
   });
 }
 setInterval(tick, 250);
+
+// ---------- Drawing (Composite Sketch) ----------
+
+const drawings = {};
+let drawingRound = null;
+let sendTimer = null;
+
+function currentDrawing(round) {
+  if (!drawings[round]) drawings[round] = createDrawing(loadDraft(`C2:${round}`) ?? []);
+  return drawings[round];
+}
+
+function sendStrokes(final = false) {
+  if (drawingRound == null) return;
+  const d = currentDrawing(drawingRound);
+  saveDraft(`C2:${drawingRound}`, d.strokes);
+  net.send('stroke_data', { round: drawingRound, strokes: d.strokes, final });
+}
+
+function mountDrawing() {
+  const el = $app.querySelector('[data-canvas]');
+  if (!el) return;
+  drawingRound = Number(el.dataset.canvas);
+  const d = currentDrawing(drawingRound);
+  mountCanvas(el, d, () => ({ c: ui.local.colour ?? 0, s: ui.local.size ?? 1 }), () => {
+    clearTimeout(sendTimer);
+    sendTimer = setTimeout(() => sendStrokes(false), 400);
+  });
+}
 
 // ---------- Input ----------
 
@@ -174,6 +206,9 @@ const actions = {
     ui.local.error = null;
     draw();
   },
+  'draw-undo'() { currentDrawing(drawingRound).undo(); draw(); sendStrokes(false); },
+  'draw-clear'() { currentDrawing(drawingRound).clear(); draw(); sendStrokes(false); },
+  'draw-done'() { clearTimeout(sendTimer); sendStrokes(true); ui.local.changing = false; },
   rejoin() { seat = null; ui.mode = 'join'; ui.view = null; ui.join.error = null; draw(); },
   reclaim() { ui.mode = 'reconnecting'; draw(); net.retry(); },
 };

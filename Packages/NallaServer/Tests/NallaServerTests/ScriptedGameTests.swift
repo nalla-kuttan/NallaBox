@@ -47,6 +47,18 @@ struct Table {
         return false
     }
 
+    /// Advances the clock in small steps until `cond` holds (or 400 steps pass).
+    func advanceUntil(step: Double = 1, _ cond: @Sendable (Table) -> Bool) async -> Bool {
+        for _ in 0..<400 {
+            if cond(self) { return true }
+            await clock.advance(by: step)
+            try? await Task.sleep(for: .milliseconds(3))
+        }
+        return false
+    }
+
+    func screen(_ i: Int) -> String { phones[i].lastView?.screen ?? "" }
+
     func waitAll(_ cond: @escaping @Sendable (TestClient) -> Bool) async -> Bool {
         for p in phones where !(await p.wait(cond)) { return false }
         return true
@@ -100,6 +112,57 @@ struct Table {
         for v in p.views where v.screen == "R1" || v.screen == "P7" {
             let text = v.data.jsonText
             #expect(!others.contains { text.contains($0) }, "\(names[i]) saw another player's fake on \(v.screen)")
+        }
+    }
+}
+
+@Test func sketchFullGame() async throws {
+    let t = try await Table.open(ports: 19480...19489, names: [("Priya", .saffron), ("Sam", .sky), ("Lena", .lilac)])
+    defer { Task { [t] in await t.close() } }
+    try await t.lead("pick_game", ["game": .string("sketch")])
+    try await t.lead("start")
+    #expect(await t.waitAll { $0.lastView?.screen == "P7" })
+    try await t.lead("skip")
+    let stroke: JSONValue = .array([.object(["c": .number(1), "s": .number(1), "p": .array([0.1, 0.2, 0.6, 0.7].map(JSONValue.number))])])
+
+    for round in 1...3 {
+        let witness = round - 1   // phones[0] is Witness in round 1, then 1, then 2
+        #expect(await t.waitAll { $0.lastView?.screen.hasPrefix("C1") == true }, "round \(round) never briefed")
+        #expect(t.phones[witness].lastView?.screen == "C1-witness")
+        #expect(await t.advanceUntil { $0.screen(witness) == "C2-witness" })
+        for (i, p) in t.phones.enumerated() where i != witness {
+            try await p.send("stroke_data", ["round": .number(Double(round)), "strokes": stroke, "final": .bool(true)])
+        }
+        #expect(await t.phones[witness].wait { $0.lastView?.screen == "C3-witness" })
+        // The Witness picks the lower-numbered artist's drawing.
+        let artists = (0..<3).filter { $0 != witness }
+        let favourite = t.phones[artists[0]]
+        #expect(await favourite.wait { $0.lastView?.screen == "C3-artist" })
+        let pick = favourite.lastView!.data["number"]!.int!
+        try await t.phones[witness].send("cast_vote", ["round": .number(Double(round)), "choice": .number(Double(pick))])
+        #expect(await t.advanceUntil { t in (0..<3).allSatisfy { t.screen($0) == "C5" } })
+        // Worst likeness: Lena's (phone 2) when she drew, else the other artist.
+        for (i, p) in t.phones.enumerated() {
+            let mine = p.lastView!.data["drawings"]!.array!.first { $0["mine"]?.bool == true }?["number"]?.int
+            let all = p.lastView!.data["drawings"]!.array!.compactMap { $0["number"]?.int }
+            let lena = t.phones[2].lastView!.data["drawings"]!.array!.first { $0["mine"]?.bool == true }?["number"]?.int
+            let choice = (i != 2 && lena != nil) ? lena! : all.first { $0 != mine }!
+            try await p.send("cast_vote", ["round": .number(Double(round)), "choice": .number(Double(choice))])
+        }
+        #expect(await t.advanceUntil { t in (0..<3).allSatisfy { round < 3 ? t.screen($0).hasPrefix("C1") : t.screen($0) == "P12" } })
+    }
+
+    let final = t.phones.map { try? $0.lastView!.data.decode(PhoneResultsData.self) }
+    #expect(final.map { $0?.points } == [2500, 1500, 500])
+    #expect(final[2]?.award?.title == "Most Wanted")
+
+    // Privacy: the scene caption only ever reached that round's Witness before the reveal.
+    var captions: Set<String> = []
+    for p in t.phones { for v in p.views where v.screen.hasSuffix("-witness") { if let c = v.data["scene"]?["caption"]?.string { captions.insert(c) } } }
+    #expect(captions.count == 3)
+    for p in t.phones {
+        for v in p.views where v.screen.hasSuffix("-artist") || v.screen == "P7" {
+            #expect(!captions.contains { v.data.jsonText.contains($0) }, "an artist saw the scene on \(v.screen)")
         }
     }
 }
