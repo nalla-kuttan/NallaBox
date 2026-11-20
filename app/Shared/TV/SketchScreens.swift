@@ -138,7 +138,7 @@ struct C4Screen: View {
                 VStack(alignment: .leading, spacing: 16) {
                     TVText.label("What \(data.witness.name) saw").foregroundStyle(NB.Palette.textDim)
                     SceneArt(scene: data.scene).frame(width: 640, height: 480)
-                    Text(data.scene.caption).font(NB.TVType.heading).lineLimit(2).frame(width: 640, alignment: .leading)
+                    Text(data.scene.caption).font(NB.TVType.heading).lineLimit(2).fixedSize(horizontal: false, vertical: true).frame(width: 640, alignment: .leading)
                 }
                 VStack(alignment: .leading, spacing: 16) {
                     if let p = data.picked {

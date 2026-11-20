@@ -96,3 +96,10 @@ test('names are escaped everywhere', () => {
 test('unknown screens render a safe fallback', () => {
   assert.match(live(view('Z9', {})), /Hang tight/);
 });
+
+test('P7 gives the leader the pill, and the sheet can skip the how-to', () => {
+  const job = { label: 'Redacted · Round 1', icon: '✍', job: 'Write a fake word for each blank' };
+  assert.match(live(view('P7', job, { deadline: 2e9 })), /class="leader-pill"/);
+  assert.doesNotMatch(live(view('P7', job, { id: 2, deadline: 2e9 })), /leader-pill/);
+  assert.match(live(view('P7', job), { sheet: 'menu' }), /Skip this round/);
+});

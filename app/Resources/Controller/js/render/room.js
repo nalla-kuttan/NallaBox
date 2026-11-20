@@ -164,7 +164,8 @@ function P7(view) {
   const d = view.data;
   return ph(`<p class="t-label t-dim">${esc(d.label)}</p><div class="big-icon">${esc(d.icon)}</div><p class="t-label t-coral">Your job</p>`
     + `<p class="t-title">${esc(d.job)}</p>${d.detail ? `<p class="t-body t-dim">${esc(d.detail)}</p>` : ''}`
-    + (view.deadline ? `<div class="auto-bar"><i data-progress-deadline="${view.deadline}" data-progress-total="15"></i></div>` : ''), { center: true });
+    + (view.deadline ? `<div class="auto-bar"><i data-progress-deadline="${view.deadline}" data-progress-total="15"></i></div>` : ''),
+  { top: isLeader(view) ? phoneTop('Get ready', '', { leader: true }) : '', center: true });
 }
 
 export function waiting(view, d, { leader = isLeader(view) } = {}) {
