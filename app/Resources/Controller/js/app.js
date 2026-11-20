@@ -7,6 +7,7 @@ import './render/redacted.js';
 import './render/sketch.js';
 import './render/insider.js';
 import { createDrawing, mountCanvas } from './canvas.js';
+import { createOutbox } from './outbox.js';
 
 const $app = document.getElementById('app');
 const params = new URLSearchParams(location.search);
@@ -40,6 +41,12 @@ if (seat) ui.mode = 'reconnecting';
 let failures = 0;
 let toastTimer = null;
 let pingSent = 0;
+const outbox = createOutbox();
+
+/** Game input: sent now, or kept and resent after reconnecting. */
+function sendGame(type, fields) {
+  if (!net.send(type, fields)) outbox.queue(type, fields);
+}
 
 const net = connect({
   url: `ws://${location.hostname}:${wsPort}/`,
@@ -84,6 +91,7 @@ function onMessage(m) {
       ui.mode = 'live';
       if (!prev || prev.screen !== m.screen || prev.data?.round !== m.data?.round) ui.local = {};
       if (!m.you.isLeader) ui.sheet = null;
+      outbox.flush(m, (type, f) => net.send(type, f));
       wakeLock(!['P3', 'P4', 'P5', 'P6'].includes(m.screen));
       draw();
       return;
@@ -164,7 +172,7 @@ function sendStrokes(final = false) {
   if (drawingRound == null) return;
   const d = currentDrawing(drawingRound);
   saveDraft(`C2:${drawingRound}`, d.strokes);
-  net.send('stroke_data', { round: drawingRound, strokes: d.strokes, final });
+  sendGame('stroke_data', { round: drawingRound, strokes: d.strokes, final });
 }
 
 function mountDrawing() {
@@ -197,12 +205,12 @@ const actions = {
   'join-reset'() { ui.join.error = null; ui.join.editCode = true; draw(); },
   leader({ action, args }) { net.send('leader', { action, args: args ?? {} }); ui.sheet = null; draw(); },
   sheet({ open, target }) { ui.sheet = open; ui.sheetTarget = target ?? null; draw(); },
-  send({ type, fields }) { net.send(type, fields ?? {}); },
+  send({ type, fields }) { sendGame(type, fields ?? {}); },
   local(patch) { Object.assign(ui.local, patch); draw(); },
   retry() { failures = 0; ui.mode = 'reconnecting'; draw(); net.retry(); },
   'submit-text'({ round }) {
     const fields = [...$app.querySelectorAll('[data-blank]')].map((i) => i.value.trim());
-    net.send('submit_text', { round, fields });
+    sendGame('submit_text', { round, fields });
     ui.local.changing = false;
     ui.local.error = null;
     draw();

@@ -44,9 +44,11 @@ export function connect({ url, onOpen, onMessage, onState, WebSocketImpl = globa
   open();
 
   return {
+    /** Sends now and returns the message id, or null when not connected (nothing is sent). */
     send(type, fields = {}) {
+      if (!ws || ws.readyState !== 1) return null;
       const id = String(++counter);
-      if (ws && ws.readyState === 1) ws.send(JSON.stringify({ v: 1, type, id, ...fields }));
+      ws.send(JSON.stringify({ v: 1, type, id, ...fields }));
       return id;
     },
     get connected() { return !!ws && ws.readyState === 1; },

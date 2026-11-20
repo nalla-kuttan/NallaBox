@@ -53,3 +53,29 @@ func wsURL(_ e: RoomEndpoint) -> URL { URL(string: "ws://127.0.0.1:\(e.wsPort)/"
     #expect(lobby.joinURL == e.joinURL)
     await server.stop()
 }
+
+@Test func reconnectKeepsSeatAndScreen() async throws {
+    let t = try await Table.open(ports: 19680...19689, names: [("Priya", .saffron), ("Sam", .sky), ("Lena", .lilac)])
+    defer { Task { [t] in await t.close() } }
+    try await t.lead("pick_game", ["game": .string("redacted")])
+    try await t.lead("start")
+    try await t.lead("skip")
+    #expect(await t.waitAll { $0.lastView?.screen == "R1" })
+    let sam = t.phones[1]
+    let id = sam.playerId, token = sam.seatToken!
+    sam.close()
+    #expect(await t.advanceUntil(step: 0.5) { _ in true })
+    var away = false
+    for _ in 0..<100 where !away {
+        away = await t.server.hub.currentTV().overlays.reconnecting.map(\.player.name) == ["Sam"]
+        if !away { try? await Task.sleep(for: .milliseconds(10)) }
+    }
+    #expect(away)
+    let back = TestClient(url: URL(string: "ws://127.0.0.1:\(t.endpoint.wsPort)/")!)
+    try await back.sendText(joinJSON("Sam", .sky, token: token))
+    #expect(await back.wait { $0.lastView?.screen == "R1" })
+    #expect(back.playerId == id)
+    #expect(await t.server.hub.currentTV().overlays.reconnecting.isEmpty)
+    #expect(await t.server.hub.room().players.count == 3)
+    back.close()
+}
